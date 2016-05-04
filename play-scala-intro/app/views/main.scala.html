@@ -1,0 +1,424 @@
+@*
+ * This template is called from the `index` template. This template
+ * handles the rendering of the page header and body tags. It takes
+ * two arguments, a `String` for the title of the page and an `Html`
+ * object to insert into the body of the page.
+ *@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+    <meta name="author" content="GeeksLabs">
+    <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+    <link rel="shortcut icon" href="img/india.png">
+
+    <title>PMR DataMining</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/bootstrap.min.css")" />
+
+    <!-- bootstrap theme -->
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/bootstrap-theme.css")" >
+    <!--external css-->
+    <!-- font icon -->
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/elegant-icons-style.css")"  />
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/font-awesome.min.css")"  />
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/widgets.css")" >
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/style.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/style-responsive.css")" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/xcharts.min.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/jquery-ui-1.10.4.min.css")">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.3/dojo/dojo.xd.js"  data-dojo-config="isDebug: true,parseOnLoad: true">
+    </script>
+
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.8.9/dijit/themes/claro/claro.css"
+          media="screen">
+
+    <script>dojoConfig = {parseOnLoad: true}</script>
+    <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.8.9/dojo/dojo.js"></script>
+
+    <!--<script type="text/javascript">-->
+    <!--$(window).load(function() {-->
+	    <!--$(".maindiv").fadeOut("slow");-->
+    <!--})-->
+    <!--</script>-->
+
+    <script>
+        //Pervasive Issues - Pie Chart
+    $(document).ready(function(){
+         $("a.per1").click(function(){
+                  $("#chart").load("http://localhost:8080/per_pie");
+                  $("#title").text("Pervasive Issues Details");
+                         });
+                 });
+
+        //Sentiment Analysis - Pie Chart
+    $(document).ready(function(){
+         $("a.senti1").click(function(){
+                  $("#chart").load("http://localhost:8080/senti_pie");
+                  $("#title").text("Sentiment Analysis Details : Sentiment Type vs Count");
+                         });
+                 });
+
+        // Column Chart
+    $(document).ready(function(){
+         $("a.senti2").click(function(){
+
+                  $("#chart").load("http://localhost:8080/senti_col");
+                  $("#title").text("Sentiment Analysis Details : Sentiment Type vs Count");
+                         });
+                 });
+
+        // Geolocation - Pie Chart
+    $(document).ready(function(){
+         $("a.geo1").click(function(){
+                  $("#chart").load("http://localhost:8080/geo_pie");
+                  $("#title").text("Geographic Location Details");
+         });
+    });
+
+        // CodeFixRatio - Pie Chart
+    $(document).ready(function(){
+         $("a.code1").click(function(){
+                  $("#chart").load("http://localhost:8080/code_pie");
+                  $("#title").text("Code Fix Ratio Details : Total PMRs vs Fixed PMRs");
+         });
+    });
+        // Column Chart
+    $(document).ready(function(){
+         $("a.code2").click(function(){
+                  $("#chart").load("http://localhost:8080/code_col");
+                  $("#title").text("Code Fix Ratio Details : Total PMRs vs Fixed PMRs");
+         });
+    });
+
+        // Critsits - Pie Chart
+     $(document).ready(function(){
+         $("a.crit1").click(function(){
+                  $("#chart").load("http://localhost:8080/crit_pie");
+                  $("#title").text("Critical Situation Details : Total PMRs vs Fixed PMRs");
+         });
+    });
+
+        // Hardware Adoption
+     $(document).ready(function(){
+         $("a.hard1").click(function(){
+                  $("#chart").load("http://localhost:8080/hard_pie");
+                  $("#title").text("Hardware Adoption Details");
+         });
+    });
+
+    // hardware - Column chart
+    $(document).ready(function(){
+         $("a.hard2").click(function(){
+                  $("#chart").load("http://localhost:8080/hard_col");
+                  $("#title").text("Hardware Adoption Details: Hardware Type vs Count");
+         });
+    });
+
+        // Software Adoption - Pie chart
+     $(document).ready(function(){
+         $("a.soft1").click(function(){
+                  $("#chart").load("http://localhost:8080/soft_pie");
+                  $("#title").text("Software Adoption Details : Software Type vs Count");
+         });
+    });
+        // Column Chart
+    $(document).ready(function(){
+         $("a.soft2").click(function(){
+                  $("#chart").load("http://localhost:8080/soft_col");
+                  $("#title").text("Software Adoption Details : Software Type vs Count");
+         });
+    });
+
+        // Monthly queries - pie cahrt
+     $(document).ready(function(){
+         $("a.month1").click(function(){
+                  $("#chart").load("http://localhost:8080/month_pie");
+                  $("#title").text("Monthly Inflow Details: Month vs Count");
+         });
+    });
+
+    // monthly reports Column Charts
+    $(document).ready(function(){
+         $("a.month2").click(function(){
+                  $("#chart").load("http://localhost:8080/month_col");
+                  $("#title").text("Monthly Inflow Details: Month vs Count");
+         });
+    });
+
+       // Active Customers
+     $(document).ready(function(){
+         $("a.acti1").click(function(){
+                  $("#chart").load("http://localhost:8080/acti_pie");
+                  $("#title").text("Top 50 Active Customer Details");
+         });
+    });
+
+    </script>
+</head>
+
+<body>
+<!-- container section start -->
+<section id="container" class="">
+
+    <header class="header dark-bg">
+        <div class="toggle-nav">
+            <div class="icon-reorder tooltips" data-original-title="Hide Sidebar" data-placement="bottom"><i class="icon_menu"></i></div>
+        </div>
+
+        <!--logo start-->
+        <a href="/" class="logo">PMR <span class="lite">DataMining</span></a>
+        <!--logo end-->
+
+        <div class="nav search-row" id="top_menu">
+            <!--  search form start -->
+            <!--<ul class="nav top-menu">-->
+                <!--<li>-->
+                    <!--<form class="navbar-form">-->
+                        <!--<input class="form-control" placeholder="Search" type="text">-->
+                    <!--</form>-->
+                <!--</li>-->
+            <!--</ul>-->
+            <!--  search form end -->
+        </div>
+
+        <div class="top-nav notification-row">
+            <!-- notificatoin dropdown start-->
+            <ul class="nav pull-right top-menu">
+                <!-- task notificatoin end -->
+                <!-- inbox notificatoin start-->
+                <!-- inbox notificatoin end -->
+                <!-- alert notification start-->
+                <!-- alert notification end-->
+                <!-- user login dropdown start-->
+                <!-- user login dropdown end -->
+            </ul>
+            <!-- notificatoin dropdown end-->
+        </div>
+    </header>
+    <!--header end-->
+
+    <!--sidebar start-->
+    <aside>
+        <div id="sidebar"  class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu">
+                <li class="active">
+                    <a class="" href="/">
+                        <i class="icon_house_alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>Monthly Inflow </span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="month1" id="monthPie">PieChart</a></li>
+                        <li><a class="month2" id="monthCol">ColChart</a></li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>Hardware Adaption</span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="hard1" id="hardPie">PieChart</a></li>
+                        <li><a class="hard2" id="hardCol">ColChart</a></li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>Software Adaption </span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="soft1" id="softPie">PieChart</a></li>
+                        <li><a class="soft2" id="softCol">ColChart</a></li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>Most Pervasive Issues </span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a id="pervasivePie" class="per1" >PieChart</a></li>
+
+                        <li><a  class="" >Chart-2</a></li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>Sentiment Analysis </span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="senti1" id="sentiPie">PieChart</a></li>
+                        <li><a class="senti2" id="sentiCol">ColChart</a></li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>PMR to Code Fix Ratio </span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="code1" id="codePie">PieChart</a></li>
+                        <li><a class="code2" id="codeCol">ColChart</a></li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>Geographic Location </span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="geo1" id="geoPie">PieChart</a></li>
+                        <li><a class="" href="">Chart-2</a></li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>Critsits Info </span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="crit1" id="critPie">PieChart</a></li>
+                        <li><a class="" href="chart.html">Chart-2</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>Active Customer Details </span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="acti1" id="actiPie">PieChart</a></li>
+                        <li><a class="">Chart-2</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>Avg. Closure Time </span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="" href="chart.html">PieChart</a></li>
+                        <li><a class="" href="chart.html">Chart-2</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="sub-menu">
+                    <a href="javascript:;" class="">
+                        <i class="icon_document_alt"></i>
+                        <span>Keyword Search </span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <!--sidebar end-->
+
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper">
+            <!--overview start-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
+                    <ol class="breadcrumb">
+                        <font size=5 color="#00a0df">
+                            <div id="title" style ="text-align: center; vertical-align: middle;">
+                                Welcome to PMR DataMining Dashboard
+                            </div>
+                        </font>
+                    </ol>
+                </div>
+            </div>
+
+            <!--/.row  Charts will come here-->
+
+
+            <div class="row">
+                <div class="col-lg-9 col-md-12">
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-body-map">
+                            <div class = "maindiv" id="chart" style ="text-align: center; vertical-align: middle;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <!-- List starts -->
+                    <ul class="today-datas">
+                        <!-- List #1 -->
+                        <li>
+                            <!-- Graph -->
+                    </ul>
+                </div>
+
+
+            </div>
+            <!-- Today status end -->
+            <!-- statics end -->
+            <!-- project team & activity start -->
+
+            <!-- project team & activity end -->
+
+        </section>
+    </section>
+    <!--main content end-->
+</section>
+<!-- container section start -->
+<!-- javascripts -->
+<script src="@routes.Assets.versioned("js/jquery.js")"></script>
+<script src="@routes.Assets.versioned("js/jquery-ui-1.10.4.min.js")"></script>
+<script src="@routes.Assets.versioned("js/jquery-1.8.3.min.js")"></script>
+<script type="text/javascript" src="@routes.Assets.versioned("js/jquery-ui-1.9.2.custom.min.js")"></script>
+<script src="@routes.Assets.versioned("js/bootstrap.min.js")"></script>
+<script src="@routes.Assets.versioned("js/jquery.scrollTo.min.js")"></script>
+<script type="text/javascript" src="@routes.Assets.versioned("js/jquery.nicescroll.js")" ></script>
+<script src="@routes.Assets.versioned("js/scripts.js")"></script>
+
+</body>
+</html>
+

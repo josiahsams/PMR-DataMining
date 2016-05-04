@@ -1,0 +1,87 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Demo: Basic Declarative Chart</title>
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="stylesheet" href="../../../resources/style/demo.css" media="screen">
+</head>
+<body>
+<h1>Demo: Basic Declarative Chart</h1>
+
+<!-- create the chart -->
+<div
+        data-dojo-type="dojox/charting/widget/Chart"
+        data-dojo-props="theme:dojox.charting.themes.Claro" id="viewsChart" style="width: 550px; height: 550px;">
+
+    <!-- Pie Chart: add the plot -->
+    <div class="plot" name="default" type="Pie" radius="200" fontColor="#000" labelOffset="-20"></div>
+
+    <!-- pieData is the data source -->
+    <div class="series" name="Last Week's Visits" array="chartData"></div>
+</div>
+
+<!-- load dojo and provide config via data attribute -->
+<!-- load dojo and provide config via data attribute -->
+<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.6/dojo/dojo.js" data-dojo-config="isDebug: 1, async: 1, parseOnLoad: 1"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.3/dojo/dojo.xd.js" data-dojo-config="isDebug: true,parseOnLoad: true">
+</script>
+
+<link rel="stylesheet" href="https://dojotoolkit.org/reference-guide/1.8/_static/js/dijit/themes/claro/claro.css">
+<script>dojoConfig = {parseOnLoad: true}</script>
+<script src='https://dojotoolkit.org/reference-guide/1.8/_static/js/dojo/dojo.js'></script>
+<script>
+
+            var chartData ;
+			<!--// x and y coordinates used for easy understanding of where they should display-->
+			<!--// Data represents website visits over a week period-->
+			<!--chartData = [-->
+				<!--{ x: 1, y: 19021 },-->
+				<!--{ x: 1, y: 12837 },-->
+				<!--{ x: 1, y: 12378 },-->
+				<!--{ x: 1, y: 21882 },-->
+				<!--{ x: 1, y: 17654 },-->
+				<!--{ x: 1, y: 15833 },-->
+				<!--{ x: 1, y: 16122 }-->
+			<!--];-->
+
+			// Using dojo.xhrGet, as no information is being sent -- only requesting
+			dojo.xhrGet(
+			{
+					// The URL of the request
+					url: "http://localhost:8080/pervasive",
+					// Handle as JSON Data
+					handleAs: "json",
+					// The success callback with result from server
+					load: function(newContent)
+					{
+						<!--// Update with content-->
+						<!--var contentNode = dojo.byId("contentNode");-->
+						<!--dojo.style(contentNode,"display","");-->
+						<!--contentNode.innerHTML =-->
+							<!--dojo.toJson(newContent)-->
+                        chartData = dojo.toJson(newContent) ;
+					}
+			});
+
+			require([
+				// Require the widget parser
+				"dojo/parser",
+
+				 // Require the basic 2d chart resource
+				"dojox/charting/widget/Chart",
+
+				// Require the theme of our choosing
+			    "dojox/charting/themes/Claro",
+
+				// Charting plugins:
+
+				// 	Require the Pie type of Plot
+				"dojox/charting/plot2d/Pie"
+
+			]);
+
+		</script>
+</body>
+</html>

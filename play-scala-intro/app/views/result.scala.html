@@ -1,0 +1,75 @@
+
+    <!-- load dojo and provide config via data attribute -->
+    <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.3/dojo/dojo.xd.js"
+            data-dojo-config="isDebug: true,parseOnLoad: true">
+    </script>
+
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.8.9/dijit/themes/claro/claro.css"
+          media="screen">
+
+    <script>dojoConfig = {parseOnLoad: true}</script>
+    <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.8.9/dojo/dojo.js"></script>
+
+    <script>
+        var store, data ;
+
+        require(["dojox/charting/Chart", "dojox/charting/plot2d/Pie", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory", "dojox/charting/StoreSeries"],
+						function(Chart, Pie, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
+						{
+							ready(function()
+							{
+							    // Using dojo.xhrGet, as no information is being sent -- only requesting
+                                dojo.xhrGet(
+                                {
+                                        // The URL of the request
+                                        url: "http://localhost:8080/pervasive",
+                                        // Handle as JSON Data
+                                        handleAs: "json",
+                                        // The success callback with result from server
+                                        load: function(newContent)
+                                        {
+                                           //data = dojo.toJson(newContent) ;
+                                            //console.log("Data in load :"+newContent) ;
+
+                                            store = new ObservableStore(new MemoryStore(
+                                            {
+                                                data:
+                                                {
+                                                    identifier: "Id",
+                                                    label: "Users Online",
+                                                    items: newContent
+                                                }
+                                            }));
+
+                                            var chartTwo = new Chart("chartDisp");
+                                        chartTwo.setTheme(MiamiNice).addPlot("default",
+                                        {
+                                            type: Pie,
+                                            font: "normal normal 11pt Tahoma",
+                                            fontColor: "black",
+                                            labelOffset: -30,
+                                            radius: 140
+                                        }).addSeries("y", new dojox.charting.StoreSeries(store,
+                                        {
+                                            query:
+                                            {}
+                                        }, "Count"));
+
+                                        var anim_a = new MoveSlice(chartTwo, "default");
+                                        var anim_b = new Highlight(chartTwo, "default");
+                                        var anim_c = new Tooltip(chartTwo, "default");
+                                        chartTwo.render();
+
+                                        }
+                                });
+
+							});
+
+                         });
+
+    </script>
+
+<div id="chartDisp" style="width: 500px; height: 500px;"></div>
+
+<div id="legendTwo"></div>
+

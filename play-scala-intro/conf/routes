@@ -1,0 +1,99 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.HomeController.index
+
+# An example controller showing how to use dependency injection
+GET     /count                      controllers.CountController.count
+
+# An example controller showing how to write asynchronous code
+GET     /message                    controllers.AsyncController.message
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+##### Geographic Location
+# geographic location raw Json output
+GET      /geoloc                    controllers.Controller1.geoLoc
+
+# Pie-Chart
+GET     /geo_pie                    controllers.Controller1.geoPie
+
+##### Pervasive
+# pervasive issues raw Json output
+GET     /pervasive                 controllers.Controller1.pervasive
+
+# Pie-Chart
+GET     /per_pie                    controllers.Controller1.perPie
+
+##### Sentiment
+# sentiment analysis raw Json output
+GET     /sentiment                  controllers.Controller1.sentiment
+
+# Pie-Chart
+GET     /senti_pie                   controllers.Controller1.sentiPie
+
+#Col-Chart
+GET     /senti_col                   controllers.Controller1.sentiCol
+
+##### CodeFixRatio
+# codeFixRatio raw Json output
+GET     /codefixratio               controllers.Controller1.codeFixRatio
+
+# Pie-Chart
+GET     /code_pie                    controllers.Controller1.codePie
+
+# Col-Chart
+GET     /code_col                   controllers.Controller1.codeCol
+
+##### CritSits
+# critsits information query
+GET     /critsits                   controllers.Controller1.critsits
+
+# Pie-Chart
+GET     /crit_pie                   controllers.Controller1.critPie
+
+##### HardWare
+# hardware related query
+GET     /hardware                   controllers.Controller1.hardware
+
+# Pie-Chart
+GET     /hard_pie                   controllers.Controller1.hardPie
+
+# Col-Chart
+GET     /hard_col                   controllers.Controller1.hardCol
+
+##### Software
+# software report query
+GET     /software                   controllers.Controller1.software
+
+# Pie-Chart
+GET     /soft_pie                   controllers.Controller1.softPie
+
+# Col-Chart
+GET     /soft_col                   controllers.Controller1.softCol
+
+##### Monthly Reports
+# monthly reports raw Json Data
+GET     /monthly                    controllers.Controller1.monthly
+
+# Pie-Chart
+GET     /month_pie                  controllers.Controller1.monthPie
+
+# Col-Chart
+GET     /month_col                  controllers.Controller1.monthCol
+
+##### Active Customer Details
+# for raw json data
+GET     /active                     controllers.Controller1.active
+
+# Pie-Chart
+GET     /acti_pie                   controllers.Controller1.actiPie
+
+# average closure time query
+#GET     /average                    controllers.Controller1.average
+
+# Chart using Json data
+GET     /index                       controllers.Controller1.jsonChart
