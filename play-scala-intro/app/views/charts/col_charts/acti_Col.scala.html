@@ -9,7 +9,9 @@
            document.body.appendChild(standby.domNode);
            standby.startup();
            standby.show();
-        require(["dojox/charting/Chart","dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory", "dojox/charting/StoreSeries"],
+        require(["dojox/charting/Chart","dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice",
+        "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory",
+        "dojox/charting/StoreSeries"],
 						function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
 						{
 							ready(function()
@@ -18,13 +20,13 @@
                                 dojo.xhrGet(
                                 {
                                         // The URL of the request
-                                        url: "http://localhost:8080/sentiment",
+                                        url: "http://localhost:8080/active",
                                         // Handle as JSON Data
                                         handleAs: "json",
                                         // The success callback with result from server
                                         load: function(newContent)
                                         {
-                                           //data = dojo.toJson(newContent) ;
+                                           data = newContent ;
                                             //console.log("Data in load :"+newContent) ;
 
                                             store = new ObservableStore(new MemoryStore(
@@ -40,25 +42,36 @@
                                             var chartTwo = new Chart("chartDisp");
                                             chartTwo.setTheme(MiamiNice).addPlot("default",
                                             {
-                                                type      : "Columns",
-                                                font      : "normal normal 11pt Tahoma",
-                                                fontColor : "black",
-                                                gap       : 5
+                                                type: "Columns",
+                                                title: "column chart",
+                                                font: "normal normal 11pt Tahoma",
+                                                fontColor: "black",
+                                                gap: 5,
+                                                tension: 3,
+                                                fill: "orange"
 
                                             }).addSeries("y", new dojox.charting.StoreSeries(store,
                                             {
                                                 query:
                                                 {}
-                                            }, "Count"));
+                                            }, "Number"));
 
                                             // Add axes
                                             chartTwo.addAxis("x", {labels:{value: 1, text: "APAR"}});
-                                            chartTwo.addAxis("y", { vertical: true, fixLower: "major", fixUpper: "major" });
+                                            chartTwo.addAxis("y", {min: 0, max: 70, vertical: true, fixLower: "major", fixUpper: "major" });
 
                                             // adding new features to chart
                                             var anim_a = new MoveSlice(chartTwo, "default");
                                             var anim_b = new Highlight(chartTwo, "default");
                                             var anim_c = new Tooltip(chartTwo, "default");
+
+                                            new Tooltip(chartTwo, "default", {
+                                            text: function(obj){
+                                            //var temp = JSON.parse('\''+obj+'\'') run.data[obj12.index] ;
+                                             console.log("X = "+obj.x+" Y = "+obj.y) ;
+                                               return data[(obj.x)].CustomerName+"<br>"+obj.y;
+                                                }
+                                            });
                                             chartTwo.render();
                                             standby.hide() ;
                                         }
@@ -66,9 +79,8 @@
 							});
 
                          });
-                });
+                 });
     </script>
-
 <body class="claro">
 <div id="chartDisp" style="width: 600px; height: 500px;"></div>
 </body>

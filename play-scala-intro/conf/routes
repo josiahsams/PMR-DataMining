@@ -21,9 +21,12 @@ GET      /geoloc                    controllers.Controller1.geoLoc
 # Pie-Chart
 GET     /geo_pie                    controllers.Controller1.geoPie
 
+# world-countries data
+GET     /world_data                 controllers.Controller1.worldData
+
 ##### Pervasive
 # pervasive issues raw Json output
-GET     /pervasive                 controllers.Controller1.pervasive
+GET     /pervasive                  controllers.Controller1.pervasive
 
 # Pie-Chart
 GET     /per_pie                    controllers.Controller1.perPie
@@ -33,10 +36,10 @@ GET     /per_pie                    controllers.Controller1.perPie
 GET     /sentiment                  controllers.Controller1.sentiment
 
 # Pie-Chart
-GET     /senti_pie                   controllers.Controller1.sentiPie
+GET     /senti_pie                  controllers.Controller1.sentiPie
 
 #Col-Chart
-GET     /senti_col                   controllers.Controller1.sentiCol
+GET     /senti_col                  controllers.Controller1.sentiCol
 
 ##### CodeFixRatio
 # codeFixRatio raw Json output
@@ -54,6 +57,9 @@ GET     /critsits                   controllers.Controller1.critsits
 
 # Pie-Chart
 GET     /crit_pie                   controllers.Controller1.critPie
+
+# Col-Chart
+GET     /crit_col                   controllers.Controller1.critCol
 
 ##### HardWare
 # hardware related query
@@ -92,8 +98,8 @@ GET     /active                     controllers.Controller1.active
 # Pie-Chart
 GET     /acti_pie                   controllers.Controller1.actiPie
 
-# average closure time query
-#GET     /average                    controllers.Controller1.average
+# Col-Chart
+GET     /acti_col                   controllers.Controller1.actiCol
 
-# Chart using Json data
-GET     /index                       controllers.Controller1.jsonChart
+# average closure time query
+#GET     /average                   controllers.Controller1.average

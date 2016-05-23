@@ -1,77 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <style>
+    </style>
+</head>
+<body >
+<div id="chartDisp" style="width: 10%; height: 60%;"></div>
+<script type="text/javascript">
+	  /*
+	    Use D3 to load the GeoJSON file
+	    */
+	    
 
-<!-- load dojo and provide config via data attribute -->
-<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.3/dojo/dojo.xd.js"
-        data-dojo-config="isDebug: true,parseOnLoad: true">
-</script>
+		d3.json("http://localhost:8080/world_data", function (error, geo_data) {
+        "use strict";
+        var margin = 75,
+            width = 1000 - margin,
+            height = 500 - margin;
 
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.8.9/dijit/themes/claro/claro.css"
-      media="screen">
+        var svg = d3.select("#chartDisp")
+            .append("svg")
+            .attr("width", width + margin)
+            .attr("height", height + margin)
+            .append('g')
+            .attr('class', 'map');
 
-<script>dojoConfig = {parseOnLoad: true}</script>
-<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.8.9/dojo/dojo.js"></script>
+        var projection = d3.geo.mercator()
+                               .scale(150)
+                               .translate( [width / 2, height / 1.5]);
 
-<script>
-        var store, data ;
+        var path = d3.geo.path().projection(projection);
 
-        require(["dojox/charting/Chart", "dojox/charting/plot2d/Pie", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory", "dojox/charting/StoreSeries"],
-						function(Chart, Pie, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
-						{
-							ready(function()
-							{
-							    // Using dojo.xhrGet, as no information is being sent -- only requesting
-                                dojo.xhrGet(
-                                {
-                                        // The URL of the request
-                                        url: "http://localhost:8080/geoloc",
-                                        // Handle as JSON Data
-                                        handleAs: "json",
-                                        // The success callback with result from server
-                                        load: function(newContent)
-                                        {
-                                           //data = dojo.toJson(newContent) ;
-                                            //console.log("Data in load :"+newContent) ;
+        var map = svg.selectAll('path')
+                     .data(geo_data.features)
+                     .enter()
+                     .append('path')
+                     .attr('d', path)
+		     .attr('class',function(d){return d['id']})
+                     .style('fill', 'lightBlue')
+                     .style('stroke', 'black')
+                     .style('stroke-width', 0.5);
 
-                                            store = new ObservableStore(new MemoryStore(
-                                            {
-                                                data:
-                                                {
-                                                    identifier: "Id",
-                                                    label: "Users Online",
-                                                    items: newContent
-                                                }
-                                            }));
+	d3.json("http://localhost:8080/geoloc",function(error, data){
+		//data = [{"Id":"IND","CountryName":"IND","Count":4498},{"Id":"JPN","CountryName":"JPN","Count":2433},{"Id":"KOR","CountryName":"KOR","Count":2301},] ;
+		var opac=d3.scale.linear()
+				.domain([1,4498])
+				.range([0.1,1])
+		for(var i=0;i<data.length;i++){
+			//console.log(data[i]['CountryId'])
+			d3.select("."+data[i]['CountryId'])
+				.style('fill',"red")
+				.style('opacity',opac(+data[i]['Count']))
+		}
+		for(var i=0;i<data.length;i++){
+			d3.select('tooltip', function (data) {
+			   var tip = data[i]['CountryId'] +data[i]['Count'];
+      		   return tip;})
+		}
+	})
+      }
+);
 
-                                            var chartTwo = new Chart("chartDisp");
-                                        chartTwo.setTheme(MiamiNice).addPlot("default",
-                                        {
-                                            type: "Pie",
-                                            font: "normal normal 11pt Tahoma",
-                                            fontColor: "black",
-                                            labelOffset: -30,
-                                            radius: 140
-                                        }).addSeries("y", new dojox.charting.StoreSeries(store,
-                                        {
-                                            query:
-                                            {}
-                                        }, "Count"));
-
-                                        var anim_a = new MoveSlice(chartTwo, "default");
-                                        var anim_b = new Highlight(chartTwo, "default");
-                                        var anim_c = new Tooltip(chartTwo, "default");
-                                        chartTwo.render();
-
-                                        }
-                                });
-                               // console.log("Data after load :"+data) ;
-
-                               // console.log("store :"+store) ;
-							});
-
-                         });
-
-    </script>
-
-<div id="chartDisp" style="width: 500px; height: 500px;"></div>
-
-<div id="legendTwo"></div>
-
+	  </script>
+</body>
+</html>

@@ -1,18 +1,14 @@
 
 <!-- load dojo and provide config via data attribute -->
-<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.3/dojo/dojo.xd.js"
-        data-dojo-config="isDebug: true,parseOnLoad: true">
-</script>
-
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.8.9/dijit/themes/claro/claro.css"
-      media="screen">
-
-<script>dojoConfig = {parseOnLoad: true}</script>
-<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.8.9/dojo/dojo.js"></script>
 
 <script>
         var store, data ;
-
+        require(["dojox/widget/Standby"],
+        function(Standby){
+           var standby = new Standby({target: "chartDisp", color: "white"});
+           document.body.appendChild(standby.domNode);
+           standby.startup();
+           standby.show();
         require(["dojox/charting/Chart","dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory", "dojox/charting/StoreSeries"],
 						function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
 						{
@@ -28,7 +24,7 @@
                                         // The success callback with result from server
                                         load: function(newContent)
                                         {
-                                           //data = dojo.toJson(newContent) ;
+                                            data = newContent ;
                                             //console.log("Data in load :"+newContent) ;
 
                                             store = new ObservableStore(new MemoryStore(
@@ -54,23 +50,37 @@
                                                 query:
                                                 {}
                                             }, "Count"));
-
+                                            //console.log("Data-1 "+data1);
+                                            var i = 0 ;
                                             // Add axes
-                                            chartTwo.addAxis("x", {labels:{value: 1, text: "APAR"}});
+                                            chartTwo.addAxis("x");
                                             chartTwo.addAxis("y", { vertical: true, fixLower: "major", fixUpper: "major" });
 
                                             // adding new features to chart
                                             var anim_a = new MoveSlice(chartTwo, "default");
                                             var anim_b = new Highlight(chartTwo, "default");
                                             var anim_c = new Tooltip(chartTwo, "default");
+                                            new Tooltip(chartTwo, "default", {
+                                           text: function(obj){
+                                            //var temp = JSON.parse('\''+obj+'\'') run.data[obj12.index] ;
+                                           // console.log("X = "+obj.x+" Y = "+obj.y) ;
+                                              return data[(obj.x)].SoftWare+"<br>"+obj.y;
+                                           }
+                                           });
+
                                             chartTwo.render();
+                                            standby.hide() ;
                                         }
                                 });
 							});
 
                          });
+        });
     </script>
 
+<body class="claro">
 <div id="chartDisp" style="width: 600px; height: 500px;"></div>
+</body>
+
 
 

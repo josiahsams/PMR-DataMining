@@ -8,13 +8,13 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<link>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
     <meta name="author" content="GeeksLabs">
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-    <link rel="shortcut icon" href="img/india.png">
+    <!--<link rel="shortcut icon" href="@routes.Assets.versioned("img/India.png")">-->
 
     <title>PMR DataMining</title>
 
@@ -34,138 +34,148 @@
     <link rel="stylesheet" href="@routes.Assets.versioned("css/xcharts.min.css")">
     <link rel="stylesheet" href="@routes.Assets.versioned("css/jquery-ui-1.10.4.min.css")">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.3/dojo/dojo.xd.js"  data-dojo-config="isDebug: true,parseOnLoad: true">
-    </script>
-
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.8.9/dijit/themes/claro/claro.css"
-          media="screen">
-
+    <script src="@routes.Assets.versioned("js/jquery.min.js")"></script>
     <script>dojoConfig = {parseOnLoad: true}</script>
-    <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.8.9/dojo/dojo.js"></script>
+    <script src="@routes.Assets.versioned("javascripts/dojo-release-1.10.4/dojo/dojo.js")"></script>
 
-    <!--<script type="text/javascript">-->
-    <!--$(window).load(function() {-->
-	    <!--$(".maindiv").fadeOut("slow");-->
-    <!--})-->
-    <!--</script>-->
+
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/claro.css")"   media="screen">
+    </link>
 
     <script>
+
+    function removejscssfile(filename, filetype){
+ var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
+ var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
+ var allsuspects=document.getElementsByTagName(targetelement)
+ for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
+  if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1)
+   allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
+ }
+}
+
+    var j = $.noConflict();
         //Pervasive Issues - Pie Chart
-    $(document).ready(function(){
-         $("a.per1").click(function(){
-                  $("#chart").load("http://localhost:8080/per_pie");
-                  $("#title").text("Pervasive Issues Details");
+    j(document).ready(function(){
+         j("a.per1").click(function(){
+                  j("#chart").load("http://localhost:8080/per_pie");
+                  j("#title").text("Pervasive Issues Details : APAR vs Count");
                          });
                  });
 
         //Sentiment Analysis - Pie Chart
-    $(document).ready(function(){
-         $("a.senti1").click(function(){
-                  $("#chart").load("http://localhost:8080/senti_pie");
-                  $("#title").text("Sentiment Analysis Details : Sentiment Type vs Count");
+    j(document).ready(function(){
+         j("a.senti1").click(function(){
+                  j("#chart").load("http://localhost:8080/senti_pie");
+                  j("#title").text("Sentiment Analysis Details : Sentiment Type vs Count");
                          });
                  });
 
         // Column Chart
-    $(document).ready(function(){
-         $("a.senti2").click(function(){
+    j(document).ready(function(){
+         j("a.senti2").click(function(){
 
-                  $("#chart").load("http://localhost:8080/senti_col");
-                  $("#title").text("Sentiment Analysis Details : Sentiment Type vs Count");
+                  j("#chart").load("http://localhost:8080/senti_col");
+                  j("#title").text("Sentiment Analysis Details : Sentiment Type vs Count");
                          });
                  });
 
         // Geolocation - Pie Chart
-    $(document).ready(function(){
-         $("a.geo1").click(function(){
-                  $("#chart").load("http://localhost:8080/geo_pie");
-                  $("#title").text("Geographic Location Details");
-         });
-    });
+      j(document).ready(function(){
+             j("a.geo1").click(function(){
+                      $.getScript( "@routes.Assets.versioned("js/d3.v3.min.js")")
+                             .done(function( data, textStatus, jqxhr ) {
+                                 j("#chart").load("http://localhost:8080/geo_pie");
+                                 j("#title").text("Geographic Location Details");
+                                 removejscssfile(data, "js") ;
+                      });
+             });
+      });
 
         // CodeFixRatio - Pie Chart
-    $(document).ready(function(){
-         $("a.code1").click(function(){
-                  $("#chart").load("http://localhost:8080/code_pie");
-                  $("#title").text("Code Fix Ratio Details : Total PMRs vs Fixed PMRs");
+    j(document).ready(function(){
+         j("a.code1").click(function(){
+                  j("#chart").load("http://localhost:8080/code_pie");
+                  j("#title").text("Code Fix Ratio Details : Total PMRs vs Fixed PMRs");
          });
     });
         // Column Chart
-    $(document).ready(function(){
-         $("a.code2").click(function(){
-                  $("#chart").load("http://localhost:8080/code_col");
-                  $("#title").text("Code Fix Ratio Details : Total PMRs vs Fixed PMRs");
+    j(document).ready(function(){
+         j("a.code2").click(function(){
+                  j("#chart").load("http://localhost:8080/code_col");
+                  j("#title").text("Code Fix Ratio Details : Total PMRs vs Fixed PMRs");
          });
     });
 
         // Critsits - Pie Chart
-     $(document).ready(function(){
-         $("a.crit1").click(function(){
-                  $("#chart").load("http://localhost:8080/crit_pie");
-                  $("#title").text("Critical Situation Details : Total PMRs vs Fixed PMRs");
+     j(document).ready(function(){
+         j("a.crit1").click(function(){
+                  j("#chart").load("http://localhost:8080/crit_col");
+                  j("#title").text("Critical Situation Details : Customer Name vs PMR Count");
          });
     });
 
         // Hardware Adoption
-     $(document).ready(function(){
-         $("a.hard1").click(function(){
-                  $("#chart").load("http://localhost:8080/hard_pie");
-                  $("#title").text("Hardware Adoption Details");
+     j(document).ready(function(){
+         j("a.hard1").click(function(){
+                  j("#chart").load("http://localhost:8080/hard_pie");
+                  j("#title").text("Hardware Adoption Details");
          });
     });
 
     // hardware - Column chart
-    $(document).ready(function(){
-         $("a.hard2").click(function(){
-                  $("#chart").load("http://localhost:8080/hard_col");
-                  $("#title").text("Hardware Adoption Details: Hardware Type vs Count");
+    j(document).ready(function(){
+         j("a.hard2").click(function(){
+                  j("#chart").load("http://localhost:8080/hard_col");
+                  j("#title").text("Hardware Adoption Details: Hardware Type vs Count");
          });
     });
 
         // Software Adoption - Pie chart
-     $(document).ready(function(){
-         $("a.soft1").click(function(){
-                  $("#chart").load("http://localhost:8080/soft_pie");
-                  $("#title").text("Software Adoption Details : Software Type vs Count");
+     j(document).ready(function(){
+         j("a.soft1").click(function(){
+                  j("#chart").load("http://localhost:8080/soft_pie");
+                  j("#title").text("Software Adoption Details : Software Type vs Count");
          });
     });
         // Column Chart
-    $(document).ready(function(){
-         $("a.soft2").click(function(){
-                  $("#chart").load("http://localhost:8080/soft_col");
-                  $("#title").text("Software Adoption Details : Software Type vs Count");
+    j(document).ready(function(){
+         j("a.soft2").click(function(){
+                  j("#chart").load("http://localhost:8080/soft_col");
+                  j("#title").text("Software Adoption Details : Software Type vs Count");
          });
     });
 
         // Monthly queries - pie cahrt
-     $(document).ready(function(){
-         $("a.month1").click(function(){
-                  $("#chart").load("http://localhost:8080/month_pie");
-                  $("#title").text("Monthly Inflow Details: Month vs Count");
+     j(document).ready(function(){
+         j("a.month1").click(function(){
+                 // j("#chart").html("");
+                  j("#chart").load("http://localhost:8080/month_pie");
+                  j("#title").text("Monthly Inflow Details: Month vs Count");
+
          });
     });
 
     // monthly reports Column Charts
-    $(document).ready(function(){
-         $("a.month2").click(function(){
-                  $("#chart").load("http://localhost:8080/month_col");
-                  $("#title").text("Monthly Inflow Details: Month vs Count");
+    j(document).ready(function(){
+         j("a.month2").click(function(){
+                  j("#chart").load("http://localhost:8080/month_col");
+                  j("#title").text("Monthly Inflow Details: Month vs Count");
          });
     });
 
        // Active Customers
-     $(document).ready(function(){
-         $("a.acti1").click(function(){
-                  $("#chart").load("http://localhost:8080/acti_pie");
-                  $("#title").text("Top 50 Active Customer Details");
+     j(document).ready(function(){
+         j("a.acti1").click(function(){
+                  j("#chart").load("http://localhost:8080/acti_col");
+                  j("#title").text("Top 50 Active Customer Details: CustomerName vs Count");
          });
     });
 
     </script>
 </head>
 
-<body>
+<body class="claro">
 <!-- container section start -->
 <section id="container" class="">
 
@@ -178,31 +188,6 @@
         <a href="/" class="logo">PMR <span class="lite">DataMining</span></a>
         <!--logo end-->
 
-        <div class="nav search-row" id="top_menu">
-            <!--  search form start -->
-            <!--<ul class="nav top-menu">-->
-                <!--<li>-->
-                    <!--<form class="navbar-form">-->
-                        <!--<input class="form-control" placeholder="Search" type="text">-->
-                    <!--</form>-->
-                <!--</li>-->
-            <!--</ul>-->
-            <!--  search form end -->
-        </div>
-
-        <div class="top-nav notification-row">
-            <!-- notificatoin dropdown start-->
-            <ul class="nav pull-right top-menu">
-                <!-- task notificatoin end -->
-                <!-- inbox notificatoin start-->
-                <!-- inbox notificatoin end -->
-                <!-- alert notification start-->
-                <!-- alert notification end-->
-                <!-- user login dropdown start-->
-                <!-- user login dropdown end -->
-            </ul>
-            <!-- notificatoin dropdown end-->
-        </div>
     </header>
     <!--header end-->
 
@@ -219,136 +204,66 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>Monthly Inflow </span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="month1" id="monthPie">PieChart</a></li>
-                        <li><a class="month2" id="monthCol">ColChart</a></li>
-                    </ul>
+                    <a class="hard2" id="hardCol">Hardware Adoption</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>Hardware Adaption</span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="hard1" id="hardPie">PieChart</a></li>
-                        <li><a class="hard2" id="hardCol">ColChart</a></li>
-                    </ul>
+                    <a class="soft2" id="softCol">Software Adoption</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>Software Adaption </span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="soft1" id="softPie">PieChart</a></li>
-                        <li><a class="soft2" id="softCol">ColChart</a></li>
-                    </ul>
+                    <a class="month1" id="monthPie">Monthly Inflow</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>Most Pervasive Issues </span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a id="pervasivePie" class="per1" >PieChart</a></li>
-
-                        <li><a  class="" >Chart-2</a></li>
-                    </ul>
+                    <a class="per1" id="pervasivePie" >Most Pervasive Issues</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>Sentiment Analysis </span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="senti1" id="sentiPie">PieChart</a></li>
-                        <li><a class="senti2" id="sentiCol">ColChart</a></li>
-                    </ul>
+                    <a class="senti1" id="sentiPie">Sentiment Analysis</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>PMR to Code Fix Ratio </span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="code1" id="codePie">PieChart</a></li>
-                        <li><a class="code2" id="codeCol">ColChart</a></li>
-                    </ul>
+                    <a class="code1" id="codePie">PMR to Code Fix Ratio</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>Geographic Location </span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="geo1" id="geoPie">PieChart</a></li>
-                        <li><a class="" href="">Chart-2</a></li>
-                    </ul>
+                    <a class="crit1" id="critPie">Critical Situation Details</a>
+                </li>
+
+
+                <!--<li class="sub-menu">-->
+                    <!--<a class="acti1" id="actiPie">Active Customer Details</a>-->
+                <!--</li>-->
+
+                <li class="sub-menu">
+                    <a class="acti1" id="actiPie">Active Customer Details</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>Critsits Info </span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="crit1" id="critPie">PieChart</a></li>
-                        <li><a class="" href="chart.html">Chart-2</a></li>
-                    </ul>
+                    <a class="geo1" id="geoPie">Geographic Location </a>
                 </li>
 
-
-                <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>Active Customer Details </span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="acti1" id="actiPie">PieChart</a></li>
-                        <li><a class="">Chart-2</a></li>
-                    </ul>
-                </li>
-
-
-                <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>Avg. Closure Time </span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="" href="chart.html">PieChart</a></li>
-                        <li><a class="" href="chart.html">Chart-2</a></li>
-                    </ul>
-                </li>
+                <!--<li class="sub-menu">-->
+                    <!--<a href="javascript:;" class="">-->
+                        <!--<i class="icon_document_alt"></i>-->
+                        <!--<span>Avg. Closure Time </span>-->
+                        <!--<span class="menu-arrow arrow_carrot-right"></span>-->
+                    <!--</a>-->
+                    <!--<ul class="sub">-->
+                        <!--<li><a class="" href="chart.html">PieChart</a></li>-->
+                        <!--<li><a class="" href="chart.html">Chart-2</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
 
 
-                <li class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <i class="icon_document_alt"></i>
-                        <span>Keyword Search </span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
-                    </a>
-                </li>
+                <!--<li class="sub-menu">-->
+                    <!--<a href="javascript:;" class="">-->
+                        <!--<i class="icon_document_alt"></i>-->
+                        <!--<span>Keyword Search </span>-->
+                        <!--<span class="menu-arrow arrow_carrot-right"></span>-->
+                    <!--</a>-->
+                <!--</li>-->
             </ul>
             <!-- sidebar menu end-->
         </div>
@@ -375,28 +290,18 @@
             <!--/.row  Charts will come here-->
 
 
-            <div class="row">
+            <div class="row ">
                 <div class="col-lg-9 col-md-12">
 
                     <div class="panel panel-default">
 
                         <div class="panel-body-map">
-                            <div class = "maindiv" id="chart" style ="text-align: center; vertical-align: middle;">
+                            <div  id="chart" style ="text-align: center; vertical-align: middle;">
 
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <!-- List starts -->
-                    <ul class="today-datas">
-                        <!-- List #1 -->
-                        <li>
-                            <!-- Graph -->
-                    </ul>
-                </div>
-
-
             </div>
             <!-- Today status end -->
             <!-- statics end -->
@@ -410,6 +315,7 @@
 </section>
 <!-- container section start -->
 <!-- javascripts -->
+
 <script src="@routes.Assets.versioned("js/jquery.js")"></script>
 <script src="@routes.Assets.versioned("js/jquery-ui-1.10.4.min.js")"></script>
 <script src="@routes.Assets.versioned("js/jquery-1.8.3.min.js")"></script>
@@ -418,6 +324,8 @@
 <script src="@routes.Assets.versioned("js/jquery.scrollTo.min.js")"></script>
 <script type="text/javascript" src="@routes.Assets.versioned("js/jquery.nicescroll.js")" ></script>
 <script src="@routes.Assets.versioned("js/scripts.js")"></script>
+
+ <!--js files for charting -->
 
 </body>
 </html>

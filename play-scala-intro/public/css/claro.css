@@ -1,3 +1,17 @@
+/* my own tooltip */
+
+.center {
+  margin: 20em auto;
+  width: 400px;
+}
+
+
+/*Change the size here*/
+div.tolltip-inner {
+    max-width: 350px;
+}
+
+/* end */
 
 .dijitReset {
 
@@ -2173,7 +2187,7 @@ div.dijitTabDisabled, .dj_ie div.dijitTabDisabled {
 .claro .dijitComboBox .dijitHasDropDownOpen .dijitArrowButtonInner {
   background-position: -70px 53%;
   border: 0 none;
-}
+}ro
 .claro div.dijitComboBoxDisabled .dijitArrowButtonInner {
 
   background-position: 0 50%;
