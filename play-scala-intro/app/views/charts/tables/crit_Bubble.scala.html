@@ -1,0 +1,67 @@
+<script>
+    var data ;
+    require(["dojox/widget/Standby"],
+    function(Standby){
+       var standby = new Standby({target: "chartTwo", color: "white"});
+       document.body.appendChild(standby.domNode);
+       standby.startup();
+    standby.show();
+        require(["dojox/charting/Chart", "dojox/charting/Chart2D", "dojox/charting/plot2d/Bubble", "dojox/charting/action2d/Highlight",
+             "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip",
+             "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dijit/Tooltip"],
+          function(Chart, Chart2D, Bubble, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ToolTip){
+          ready(function(){
+
+        // Initial data
+        dojo.xhrGet({
+                url: "http://localhost:8080/critsits",
+                // Handle as JSON Data
+                handleAs: "json",
+                // The success callback with result from server
+                load: function(newContent)
+                {
+                   data = newContent ;
+
+                    var chartTwo = new Chart("chartTwo");
+                    var temp = [] ;
+                    for (var i = 0; i < data.length ; i += 1){
+                                // change the value 30 if u want to draw a graph for size>30
+                                temp.push({x: i, y: parseInt(Math.random() * 30), size: data[i].Number});
+                    }
+
+                    chartTwo.addAxis("x");
+                    chartTwo.addAxis("y", {
+                        vertical: true,
+                        fixLower: "major",
+                        fixUpper: "major"
+                    });
+
+                    chartTwo.setTheme(MiamiNice)
+                     .addPlot("default", {
+                        type: "Bubble",
+                        fill: "orange"
+                    }).addSeries("y",temp);
+
+                    var anim_a = new MoveSlice(chartTwo, "default");
+                    var anim_b = new Highlight(chartTwo, "default");
+                    var anim_c = new Tooltip(chartTwo, "default");
+
+                    // new tooltip
+                    new Tooltip(chartTwo, "default", {
+                       text: function(obj){
+                              return data[(obj.x)].CustomerName+"<br>"+data[(obj.x)].Number;
+                           }
+                       });
+
+                    standby.hide();
+                    chartTwo.render();
+                }
+            });
+        });
+        });
+    });
+</script>
+
+<body class="claro">
+<div id="chartTwo" style="width: 500px; height: 500px;"></div>
+</body>

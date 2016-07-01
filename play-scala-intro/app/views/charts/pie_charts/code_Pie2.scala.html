@@ -1,0 +1,103 @@
+
+<!-- load dojo and provide config via data attribute -->
+
+<script>
+        var store, data, grid, x ;
+
+        require(["dojox/charting/Chart", "dojox/charting/plot2d/Pie", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip",
+                "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory", "dojox/charting/StoreSeries",
+                'dojox/grid/DataGrid', 'dojo/data/ItemFileWriteStore', 'dojox/grid/cells/dijit', 'dojo/date/stamp', 'dojo/date/locale', "dijit/registry", 'dojo/domReady!'],
+
+						function(Chart, Pie, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries, DataGrid,
+						ItemFileWriteStore, dijit, stamp, locale, registry)
+						{
+							ready(function()
+							{
+							    // Using dojo.xhrGet, as no information is being sent -- only requesting
+                                dojo.xhrGet(
+                                {
+                                        // The URL of the request
+                                        url: "http://localhost:8080/codefixratio2",
+                                        // Handle as JSON Data
+                                        handleAs: "json",
+                                        content: {
+                                          monthNo: localStorage.getItem("monthNo"),
+                                        },
+                                        // The success callback with result from server
+                                        load: function(newContent)
+                                        {
+                                            data = newContent ;
+
+                                            var chartTwo = new Chart("chartDisp");
+                                            chartTwo.setTheme(MiamiNice).addPlot("default",
+                                            {
+                                                type: "Pie",
+                                                font: "normal normal 11pt Tahoma",
+                                                fontColor: "black",
+                                                labelOffset: -15,
+                                                radius: 150
+                                            }).addSeries("y", data);
+
+                                            var anim_a = new MoveSlice(chartTwo, "default");
+                                            var anim_b = new Highlight(chartTwo, "default");
+                                            var anim_c = new Tooltip(chartTwo, "default");
+                                            new Tooltip(chartTwo, "default", {
+                                               text: function(obj){
+                                                  return data[(obj.x)].text+"<br>"+data[obj.x].y ;
+                                               }
+                                               });
+
+                                            chartTwo.render();
+
+                                            if(typeof registry.byId("legendTwo") != "undefined"){
+                                                registry.byId("legendTwo").destroyRecursive();
+                                                console.log("I am sankar");
+                                            }
+                                            var legendTwo = new dojox.charting.widget.Legend({chart: chartTwo}, "legendTwo");
+                                        // Table
+
+                                            x = data[1].y/data[0].y
+                                            var layout = [
+                                                    {'name': 'Parameter', 'field': 'id', 'width': '140px'},
+                                                    {'name': 'Value', 'field': 'value', 'width': '60px' }
+                                                ];
+
+                                                var store1 = new ItemFileWriteStore
+                                                ({
+                                                    data: {
+                                                        identifier: "id",
+                                                        items: [
+                                                            {id: "Fixed PMRs Ratio", value: Math.round(x*10000)/10000 }
+                                                        ]
+                                                    }
+                                                });
+
+                                                grid = new DataGrid({
+                                                      store: store1,
+                                                      query: { id: "*" },
+                                                      structure: layout,
+                                                      rowSelector: '10px'
+                                                    });
+
+                                                grid.placeAt('table');
+                                                grid.startup();
+
+                                        }
+                                });
+							});
+         });
+    </script>
+
+<body class="claro">
+
+<div style="width:800px; height:600px" id="sentiChart">
+    <div id="table" style="width:230px; height:60px">
+    </div>
+    <div id="chartDisp" style="width: 600px; height: 500px;">
+    </div>
+    <div id="legendTwo"></div>
+
+</div>
+</body>
+
+

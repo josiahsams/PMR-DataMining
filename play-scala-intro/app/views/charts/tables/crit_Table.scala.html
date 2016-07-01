@@ -1,0 +1,49 @@
+
+<script>
+  var data1, store, dataStore, grid ;
+
+  require(['dojox/grid/DataGrid', "dojo/data/ObjectStore", "dojo/store/Memory","dojox/charting/StoreSeries", "dojo/request","dojo/ready"],
+    function(DataGrid, ObjectStore, Memory, StoreSeries,request, ready){
+      ready(function(){
+        dojo.xhrGet({
+            url: "http://localhost:8080/critsits",
+            // Handle as JSON Data
+            handleAs: "json",
+            // The success callback with result from server
+            load: function(newContent)
+            {
+               data = newContent ;
+                //console.log("Data in load :"+newContent) ;
+               console.log("data :"+newContent) ;
+              store = new Memory({data : data});
+              dataStore = new ObjectStore({ objectStore: store });
+              data1 = this.data ;
+              /*set up layout*/
+
+              var layout = [[
+                {'name': 'Id',           'field': 'Id',           'width': '80px'},
+                {'name': 'CustomerName', 'field': 'CustomerName', 'width': '200px'},
+                {'name': 'PMR Count',    'field': 'Number',       'width': '120px'}
+              ]];
+
+              /*create a new grid*/
+              grid = new DataGrid({
+                  store: dataStore,
+                  query: { Id: "*" },
+                  structure: layout,
+                  rowSelector: '10px'});
+
+                  /*append the new grid to the div*/
+                  grid.placeAt("chartDisp");
+
+                  /*Call startup() to render the grid*/
+                  grid.startup();
+            }
+        });
+      });
+  });
+  </script>
+
+<body class="claro">
+<div id="chartDisp" style="width: 415px; height: 520px;" ></div>
+</body>

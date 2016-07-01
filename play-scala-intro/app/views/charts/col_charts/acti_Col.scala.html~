@@ -1,0 +1,80 @@
+
+<!-- load dojo and provide config via data attribute -->
+
+<script>
+        var store, data ;
+
+        require(["dojox/charting/Chart","dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice",
+        "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory",
+        "dojox/charting/StoreSeries"],
+function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
+	{
+	ready(function()
+	{
+    // Using dojo.xhrGet, as no information is being sent -- only requesting
+                                dojo.xhrGet(
+                                {
+                                        // The URL of the request
+                                        url: "http://localhost:8080/active",
+                                        // Handle as JSON Data
+                                        handleAs: "json",
+                                        // The success callback with result from server
+                                        load: function(newContent)
+                                        {
+                                           data = newContent ;
+                                            //console.log("Data in load :"+newContent) ;
+
+                                            store = new ObservableStore(new MemoryStore(
+                                            {
+                                                data:
+                                                {
+                                                    identifier : "Id",
+                                                    label      : "Users Online",
+                                                    items      : newContent
+                                                }
+                                            }));
+// creating a new chart and setting its properties
+                                            var chartTwo = new Chart("chartDisp");
+                                            chartTwo.setTheme(MiamiNice).addPlot("default",
+                                            {
+                                                type: "Columns",    // type of chart col, bar, pie ...etc
+                                                title: "column chart",    // title for the chart(not working)
+                                                font: "normal normal 11pt Tahoma", // setting the font of text showing on the screen
+                                                fontColor: "black",        // give color to font
+                                                gap: 5,		// gap between bars
+                                                tension: 3,     
+                                                fill: "orange"  // give color to fill the bar
+
+                                            }).addSeries("y", new dojox.charting.StoreSeries(store,
+                                            {
+                                                query:
+                                                {}
+                                            }, "Number"));
+
+                                            // Add axes
+                                            chartTwo.addAxis("x", {labels:{value: 1, text: "APAR"}});
+                                            chartTwo.addAxis("y", {min: 0, max: 70, vertical: true, fixLower: "major", fixUpper: "major" });
+
+                                            // adding new features to chart
+                                            var anim_a = new MoveSlice(chartTwo, "default");
+                                            var anim_b = new Highlight(chartTwo, "default");
+                                            var anim_c = new Tooltip(chartTwo, "default");
+
+                                            new Tooltip(chartTwo, "default", {
+                                            text: function(obj){
+                                            //var temp = JSON.parse('\''+obj+'\'') run.data[obj12.index] ;
+                                             console.log("X = "+obj.x+" Y = "+obj.y) ;
+                                               return data[(obj.x)].CustomerName+"<br>"+obj.y;
+                                                }
+                                            });
+                                            chartTwo.render();
+                                        }
+                                });
+							});
+
+                         });
+    </script>
+<body class="claro">
+<div id="chartDisp" style="width: 600px; height: 500px;"></div>
+</body>
+

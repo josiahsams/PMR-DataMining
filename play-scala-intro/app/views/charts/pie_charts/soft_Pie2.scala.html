@@ -1,0 +1,79 @@
+
+<!-- load dojo and provide config via data attribute -->
+
+<script>
+        var store, data ;
+
+        require(["dojox/charting/Chart", "dojox/charting/plot2d/Pie", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice",
+        "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable",
+        "dojo/store/Memory", "dojox/charting/StoreSeries", "dijit/registry"],
+						function(Chart, Pie, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries, registry)
+						{
+							ready(function()
+							{
+							    // Using dojo.xhrGet, as no information is being sent -- only requesting
+                                dojo.xhrGet(
+                                {
+                                        // The URL of the request
+                                        url: "http://localhost:8080/software2",
+                                        content: {
+                                          monthNo: localStorage.getItem("monthNo"),
+                                        },
+                                        // Handle as JSON Data
+                                        handleAs: "json",
+                                        // The success callback with result from server
+                                        load: function(newContent)
+                                        {
+                                           data = newContent ;
+
+                                            var chartTwo = new Chart("chartDisp");
+                                            chartTwo.setTheme(MiamiNice).addPlot("default",
+                                            {
+                                                type: "Pie",
+                                                font: "normal normal 11pt Tahoma",
+                                                fontColor: "black",
+                                                labelOffset: -10,
+                                                radius: 140,
+                                                labelWiring: "cccc",
+                                                labelStyle: "columns"
+                                            }).addSeries("y", data);
+
+                                            var anim_a = new MoveSlice(chartTwo, "default");
+                                            var anim_b = new Highlight(chartTwo, "default");
+                                            var anim_c = new Tooltip(chartTwo, "default");
+
+                                            new Tooltip(chartTwo, "default", {
+                                               text: function(obj){
+                                                  return data[(obj.x)].text+"<br>"+data[(obj.x)].y;
+                                               }
+                                            });
+
+                                            chartTwo.render();
+
+                                            if(typeof registry.byId("legendTwo") != "undefined"){
+                                                    registry.byId("legendTwo").destroyRecursive();
+                                                    console.log("I am sankar");
+                                            }
+
+                                            // adding legends
+                                            var legendTwo = new dojox.charting.widget.Legend({chart: chartTwo}, "legendTwo");
+
+                                                <!--chartTwo.connectToPlot("default", function(evt) {-->
+                                                    <!--var type = evt.type;-->
+
+                                                    <!--if(type=="onclick")-->
+                                                    <!--{-->
+                                                       <!--localStorage.setItem("softType",String(data[evt.x].text)) ;-->
+                                                       <!--window.location.replace("http://localhost:8080/level2/software");-->
+                                                    <!--}-->
+                                                <!--});-->
+                                        }
+                                });
+							});
+                         });
+    </script>
+
+<body class="claro">
+<div id="chartDisp" style="width: 600px; height: 500px;"></div>
+<div id="legendTwo"></div>
+</body>
