@@ -7,171 +7,430 @@
 @(title: String)(content: Html)
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
 <link>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
     <meta name="author" content="GeeksLabs">
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-    <!--<link rel="shortcut icon" href="@routes.Assets.versioned("img/India.png")">-->
 
     <title>PMR DataMining</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="@routes.Assets.versioned("css/bootstrap.min.css")" />
-
     <!-- bootstrap theme -->
-    <link rel="stylesheet" href="@routes.Assets.versioned("css/bootstrap-theme.css")" >
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/bootstrap-theme.css")" />
     <!--external css-->
     <!-- font icon -->
     <link rel="stylesheet" href="@routes.Assets.versioned("css/elegant-icons-style.css")"  />
     <link rel="stylesheet" href="@routes.Assets.versioned("css/font-awesome.min.css")"  />
     <!-- Custom styles -->
-    <link rel="stylesheet" href="@routes.Assets.versioned("css/widgets.css")" >
-    <link rel="stylesheet" href="@routes.Assets.versioned("css/style.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/widgets.css")" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/style.css")" />
     <link rel="stylesheet" href="@routes.Assets.versioned("css/style-responsive.css")" />
-    <link rel="stylesheet" href="@routes.Assets.versioned("css/xcharts.min.css")">
-    <link rel="stylesheet" href="@routes.Assets.versioned("css/jquery-ui-1.10.4.min.css")">
-
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/xcharts.min.css")" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("css/jquery-ui-1.10.4.min.css")" />
+    <!-- scripts for jquery, dojo and claro styles-->
     <script src="@routes.Assets.versioned("js/jquery.min.js")"></script>
-    <script>dojoConfig = {parseOnLoad: true}</script>
+    <script>dojoConfig = {parseOnLoad: true, asyc: true}</script>
     <script src="@routes.Assets.versioned("javascripts/dojo-release-1.10.4/dojo/dojo.js")"></script>
+    <link rel="stylesheet" href="@routes.Assets.versioned("javascripts/dojo-release-1.10.4/dijit/themes/claro/claro.css")" media="screen" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("javascripts/dojo-release-1.10.4/dojox/grid/resources/claroGrid.css")"   media="screen" />
+<!--css to get sticky notes in homepage-->
+ <style type="text/css">
+        /*Grid needs an explicit height by default*/
+        #gridDiv {
+        height: 20em;
+        }
+
+        *{
+        margin:0;
+        padding:0;
+        }
+        body{
+        font-family:arial;
+        }
+        p{
+        font-size:100%;
+        font-weight:normal;
+        }
+        ul1,li1{
+        li1st-style:none;
+        }
+        ul1{
+        overflow:hidden;
+        padding:3em;
+        }
+        ul1 li1 a{
+        text-decoration:none;
+        color:#000;
+        background:#ffc;
+        display:block;
+        height:30em;
+        width:15em;
+        padding:1em;
+        -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+        -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+        box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+        -moz-transition:-moz-transform .15s li1near;
+        -o-transition:-o-transform .15s li1near;
+        -webkit-transition:-webkit-transform .15s li1near;
+        }
+        ul1 li1{
+        margin:3em;
+        float:left;
+        }
+        ul1 li1 h2{
+        font-size:140%;
+        font-weight:bold;
+        padding-bottom:10px;
+        }
+        ul1 li1 p{
+        font-family:"Reenie Beanie",arial,sans-serif;
+        font-size:180%;
+        }
+        ul1 li1 a{
+        -webkit-transform: rotate(-6deg);
+        -o-transform: rotate(-6deg);
+        -moz-transform:rotate(-6deg);
+        }
+
+        ul1 li1 a:hover,ul1 li1 a:focus{
+        box-shadow:10px 10px 7px rgba(0,0,0,.7);
+        -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7);
+        -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7);
+        -webkit-transform: scale(1.25);
+        -moz-transform: scale(1.25);
+        -o-transform: scale(1.25);
+        position:relative;
+        z-index:5;
+        }
+
+        ol{text-ali1gn:center;}
+        ol li1{display:inli1ne;padding-right:1em;}
+        ol li1 a{color:#000;}
+
+        .spinner {
+            position: fixed;
+            top: 0%;
+            left: 0%;
+            margin-left: -50px; /* half width of the spinner gif */
+            margin-top: -50px; /* half height of the spinner gif */
+            text-align:center;
+            z-index:1234;
+            overflow: auto;
+            width: 100px; /* width of the spinner gif */
+            height: 102px; /*hight of the spinner gif +2px to fix IE8 issue */
+        }
+
+    <!--dividing main screen-->
+    .chartClass{
+        width:600px;
+        float:left;
+        height: 100% ;
+    }
+    .textClass{
+        width:600px;
+        float:left;
+        height: 100% ;
+    }
+
+    .hide{
+         display: none;
+    }
+
+       #floating-panel {
+              position: absolute;
+              top: 10px;
+              left: 25%;
+              z-index: 50;
+              background-color: #eee;
+              padding: 5px;
+              border: 1px solid #999;
+              text-align: center;
+              font-family: 'Roboto','sans-serif';
+              line-height: 15px;
+              padding-left: 10px;
+        }
 
 
-    <link rel="stylesheet" href="@routes.Assets.versioned("css/claro.css")"   media="screen">
-    </link>
+    </style>
+
 
     <script>
 
-    function removejscssfile(filename, filetype){
- var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
- var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
- var allsuspects=document.getElementsByTagName(targetelement)
- for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
-  if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1)
-   allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
- }
-}
+     $(document).ready(function(){
 
-    var j = $.noConflict();
-        //Pervasive Issues - Pie Chart
-    j(document).ready(function(){
-         j("a.per1").click(function(){
-                  j("#chart").load("http://localhost:8080/per_pie");
-                  j("#title").text("Pervasive Issues Details : APAR vs Count");
-                         });
-                 });
-
-        //Sentiment Analysis - Pie Chart
-    j(document).ready(function(){
-         j("a.senti1").click(function(){
-                  j("#chart").load("http://localhost:8080/senti_pie");
-                  j("#title").text("Sentiment Analysis Details : Sentiment Type vs Count");
-                         });
-                 });
-
-        // Column Chart
-    j(document).ready(function(){
-         j("a.senti2").click(function(){
-
-                  j("#chart").load("http://localhost:8080/senti_col");
-                  j("#title").text("Sentiment Analysis Details : Sentiment Type vs Count");
-                         });
-                 });
-
-        // Geolocation - Pie Chart
-      j(document).ready(function(){
-             j("a.geo1").click(function(){
-                      $.getScript( "@routes.Assets.versioned("js/d3.v3.min.js")")
-                             .done(function( data, textStatus, jqxhr ) {
-                                 j("#chart").load("http://localhost:8080/geo_pie");
-                                 j("#title").text("Geographic Location Details");
-                                 removejscssfile(data, "js") ;
-                      });
-             });
-      });
-
-        // CodeFixRatio - Pie Chart
-    j(document).ready(function(){
-         j("a.code1").click(function(){
-                  j("#chart").load("http://localhost:8080/code_pie");
-                  j("#title").text("Code Fix Ratio Details : Total PMRs vs Fixed PMRs");
+          // Geolocation - Pie Chart
+          $("#geoPie").click(function(){
+            $("#linkstring").hide() ;
+                $(".nav-collapse").find(".active").removeClass("active");
+                $(this).parent().addClass("active");
+// loading the d3 only for this query to avoid conflict with dojo
+                  $.getScript( "@routes.Assets.versioned("js/d3.v3.min.js")")
+                         .done(function(data, textStatus, jqxhr) {
+// loading chart into chart area division
+                             $("#chartArea").load("http://localhost:8080/geo_pie");
+// loading title into title division
+                             $("#title").text("Geographic Location Details");
+// loading text into sticky notes area
+                             $("#queryInfo").text("It shows the distribution of PMR's across the world. We are receiving more number of PMR's from India");
+                  });
+// setting flag to reload the page when any other query is clicked
+                localStorage.setItem("flag", 1) ;
          });
-    });
-        // Column Chart
-    j(document).ready(function(){
-         j("a.code2").click(function(){
-                  j("#chart").load("http://localhost:8080/code_col");
-                  j("#title").text("Code Fix Ratio Details : Total PMRs vs Fixed PMRs");
+
+          //Pervasive Issues - Pie Chart for onclick event
+          $("#pervasivePie").click(function(){
+// check if the flag is set or not.
+            if(localStorage.getItem("flag")==1)
+            {
+// if the flag is set reload the page
+                localStorage.setItem("queryName", "pervasive");
+// reload the page
+                location.reload();
+            }
+            pervasiveIssues();
          });
+          //Sentiment Analysis - Pie Chart
+          $("#sentiPie").click(function(){
+// check if the flag is set or not.
+            if(localStorage.getItem("flag")==1)
+            {
+// if the flag is set reload the page
+                localStorage.setItem("queryName", "sentiment");
+                location.reload();
+            }
+            sentimentAnalysis();
+         });
+         // CodeFixRatio - Pie Chart
+          $("#codePie").click(function(){
+// check if the flag is set or not.
+            if(localStorage.getItem("flag")==1)
+            {
+// if the flag is set reload the page
+                localStorage.setItem("queryName", "codefixratio");
+                location.reload();
+            }
+            codeFixRatio();
+         });
+         // Critsits - Pie Chart
+         $("#critBubble").click(function(){
+// check if the flag is set or not.
+            if(localStorage.getItem("flag")==1)
+            {
+// if the flag is set reload the page
+                localStorage.setItem("queryName", "critical");
+                location.reload();
+            }
+            criticalSituation();
+         });
+
+         // Hardware Adoption
+         $("#hardPie").click(function(){
+// check if the flag is set or not.
+            if(localStorage.getItem("flag")==1)
+            {
+// if the flag is set reload the page
+                localStorage.setItem("queryName", "hardware");
+                location.reload();
+            }
+            hardwareAdoption();
+         });
+
+         // Monthly queries - pie cahrt
+         $("#monthPie, #monthPie2").click(function(){
+// check if the flag is set or not.
+            if(localStorage.getItem("flag")==1)
+            {
+// if the flag is set reload the page
+                localStorage.setItem("queryName", "month");
+                location.reload();
+            }
+            monthlyInflow();
+         });
+
+         // Active customers
+         $("#actiTable").click(function(){
+// check if the flag is set or not.
+            if(localStorage.getItem("flag")==1)
+            {
+// if the flag is set reload the page
+                localStorage.setItem("queryName", "active");
+                location.reload();
+            }
+            activeUsers();
+         });
+
+         // Software Adoption - Pie chart
+         $("#softPie").click(function(){
+// check if the flag is set or not.
+            if(localStorage.getItem("flag")==1)
+            {
+// if the flag is set reload the page
+                localStorage.setItem("queryName", "software");
+                location.reload();
+            }
+            softwareAdoption();
+         });
+
+         // Second phase hardquery
+         $("#hardquery").click(function(){
+            $("#loading").toggle() ;
+            $(".nav-collapse").find(".active").removeClass("active");
+            $(this).parent().addClass("active");
+                window.location.replace("http://localhost:8080/monthlyAnalysis");
+        })
+
+        // Loading Functionality
+        $('.query').on('click', function(){
+                console.log("Hey i am in query class");
+                $('#chartArea').text("Loading, Please wait...") ;
+        });
     });
 
-        // Critsits - Pie Chart
-     j(document).ready(function(){
-         j("a.crit1").click(function(){
-                  j("#chart").load("http://localhost:8080/crit_col");
-                  j("#title").text("Critical Situation Details : Customer Name vs PMR Count");
-         });
+    $(document).ready(function(){
+// when page reloads check flag, queryname and execute respective month query
+        if(localStorage.getItem("flag")==1&&localStorage.getItem("queryName")=="month")
+        {
+            $('#chartArea').text("Loading, Please wait...") ;
+            localStorage.setItem("flag", 0) ;
+            monthlyInflow();
+        }
+        else if(localStorage.getItem("flag")==1&&localStorage.getItem("queryName")=="active")
+        {
+            $('#chartArea').text("Loading, Please wait...") ;
+            localStorage.setItem("flag", 0) ;
+            activeUsers();
+        }
+        else if(localStorage.getItem("flag")==1&&localStorage.getItem("queryName")=="software")
+        {
+            $('#chartArea').text("Loading, Please wait...") ;
+            localStorage.setItem("flag", 0) ;
+            softwareAdoption();
+        }
+        else if(localStorage.getItem("flag")==1&&localStorage.getItem("queryName")=="critical")
+        {
+            $('#chartArea').text("Loading, Please wait...") ;
+            localStorage.setItem("flag", 0) ;
+            criticalSituation();
+        }
+        else if(localStorage.getItem("flag")==1&&localStorage.getItem("queryName")=="codefixratio")
+        {
+            $('#chartArea').text("Loading, Please wait...") ;
+            localStorage.setItem("flag", 0) ;
+            codeFixRatio();
+        }
+        else if(localStorage.getItem("flag")==1&&localStorage.getItem("queryName")=="sentiment")
+        {
+            $('#chartArea').text("Loading, Please wait...") ;
+            localStorage.setItem("flag", 0) ;
+            sentimentAnalysis();
+        }
+        else if(localStorage.getItem("flag")==1&&localStorage.getItem("queryName")=="pervasive")
+        {
+            $('#chartArea').text("Loading, Please wait...") ;
+            localStorage.setItem("flag", 0) ;
+            pervasiveIssues();
+        }
+        else if(localStorage.getItem("flag")==1&&localStorage.getItem("queryName")=="hardware")
+        {
+            $('#chartArea').text("Loading, Please wait...") ;
+            localStorage.setItem("flag", 0) ;
+            hardwareAdoption();
+        }
+        else
+        {
+            console.log("I am in else");
+        }
     });
+        // query function
+        // Pervasive Issues
+        function pervasiveIssues(){
+// hide linkstring division
+            $("#linkstring").hide() ;
+// find the active class in sidebar and remove it
+            $(".nav-collapse").find(".active").removeClass("active");
+// add the active class to the current query
+            $("#pervasivePie").parent().addClass("active");
+// load the chart into chart area
+            $("#chartArea").load("http://localhost:8080/per_table");
+// load title into the division
+            $("#title").text("Pervasive Issues Details : APAR vs Count");
+// load the query info into sticky notes
+            $("#queryInfo").text("The table shows the list of APAR's with respective count of PMR's. ");
+        }
 
-        // Hardware Adoption
-     j(document).ready(function(){
-         j("a.hard1").click(function(){
-                  j("#chart").load("http://localhost:8080/hard_pie");
-                  j("#title").text("Hardware Adoption Details");
-         });
-    });
+        //Sentiment Analysis
+        function sentimentAnalysis(){
+            $("#linkstring").hide() ;
+             $(".nav-collapse").find(".active").removeClass("active");
+             $("#sentiPie").parent().addClass("active");
+             $("#chartArea").load("http://localhost:8080/senti_pie");
+             $("#title").text("Sentiment Analysis Details : Sentiment Type vs Count");
+             $("#queryInfo").text("It is performed on comments given by customers. Based on the words they have used it is categorized into positive or negative sentiment");
+        }
+        // code fixratio
+        function codeFixRatio(){
+            $("#linkstring").hide() ;
+            $(".nav-collapse").find(".active").removeClass("active");
+            $("#codePie").parent().addClass("active");
+            $("#chartArea").load("http://localhost:8080/code_pie");
+            $("#title").text("Code Fix Ratio Details : Total PMRs vs Fixed PMRs");
+            $("#queryInfo").text("It shows how many PMR's actually need code fix. If the no. of fixed PMR's is high for a product then the product is not stable");
+        }
+        // monthly inflow
+        function monthlyInflow(){
+            $("#linkstring").show() ;
+            $("#ItemMenu").show() ;
+            $(".nav-collapse").find(".active").removeClass("active");
+            $("#monthPie").parent().addClass("active");
+            $("#chartArea").load("http://localhost:8080/month_col");
+            $("#title").text("Monthly Inflow Details: Month vs Count");
+            $("#queryInfo").text("It shows the number of PMR's received on monthly basis. Generally after product release we receive maximum number of PMR's");
+        }
 
-    // hardware - Column chart
-    j(document).ready(function(){
-         j("a.hard2").click(function(){
-                  j("#chart").load("http://localhost:8080/hard_col");
-                  j("#title").text("Hardware Adoption Details: Hardware Type vs Count");
-         });
-    });
+        // active users
+        function activeUsers(){
+               $("#linkstring").hide() ;
+               $(".nav-collapse").find(".active").removeClass("active");
+               $("#actiTable").parent().addClass("active");
+               $("#chartArea").load("http://localhost:8080/acti_table");
+               $("#title").text("Top 10 Active Customer Details: CustomerName and PMR Count");
+               $("#queryInfo").text("PMR's raised by a customer will show his activeness towards the product. More number of PMR's raised more active is the customer");
+        }
 
-        // Software Adoption - Pie chart
-     j(document).ready(function(){
-         j("a.soft1").click(function(){
-                  j("#chart").load("http://localhost:8080/soft_pie");
-                  j("#title").text("Software Adoption Details : Software Type vs Count");
-         });
-    });
-        // Column Chart
-    j(document).ready(function(){
-         j("a.soft2").click(function(){
-                  j("#chart").load("http://localhost:8080/soft_col");
-                  j("#title").text("Software Adoption Details : Software Type vs Count");
-         });
-    });
+        // software
+        function softwareAdoption(){
+             $("#linkstring").hide() ;
+             $(".nav-collapse").find(".active").removeClass("active");
+             $("#softPie").parent().addClass("active");
+             $("#chartArea").load("http://localhost:8080/soft_pie");
+             $("#title").text("Software Adoption Details : Software Type vs Count");
+             $("#queryInfo").text("It shows the distribution of customers over different AIX versions. Customers are slowly migrating from 6.1 to 7.1 and remaining versions are deprecating slowly");
+        }
 
-        // Monthly queries - pie cahrt
-     j(document).ready(function(){
-         j("a.month1").click(function(){
-                 // j("#chart").html("");
-                  j("#chart").load("http://localhost:8080/month_pie");
-                  j("#title").text("Monthly Inflow Details: Month vs Count");
+        // hardware
+        function hardwareAdoption(){
+            $("#linkstring").hide() ;
+             $(".nav-collapse").find(".active").removeClass("active");
+             $("#hardPie").parent().addClass("active");
+             $("#chartArea").load("http://localhost:8080/hard_pie");
+             $("#title").text("Hardware Adoption Details : Hardware Type vs PMR Count");
+             $("#queryInfo").text("It shows the distribution of customers over different hardware types. Customers are slowly adopting to new hardware(power8)");
+        }
 
-         });
-    });
-
-    // monthly reports Column Charts
-    j(document).ready(function(){
-         j("a.month2").click(function(){
-                  j("#chart").load("http://localhost:8080/month_col");
-                  j("#title").text("Monthly Inflow Details: Month vs Count");
-         });
-    });
-
-       // Active Customers
-     j(document).ready(function(){
-         j("a.acti1").click(function(){
-                  j("#chart").load("http://localhost:8080/acti_col");
-                  j("#title").text("Top 50 Active Customer Details: CustomerName vs Count");
-         });
-    });
-
+        // critical situation details
+        function criticalSituation(){
+             $("#linkstring").hide() ;
+             $(".nav-collapse").find(".active").removeClass("active");
+             $("#critBubble").parent().addClass("active");
+             $("#chartArea").load("http://localhost:8080/crit_table");
+             $("#title").text("Customers impacted due to critical bugs in OS");
+             $("#queryInfo").text("Table shows the list of customers impacted due to critical bugs in OS");
+        }
     </script>
 </head>
 
@@ -183,87 +442,57 @@
         <div class="toggle-nav">
             <div class="icon-reorder tooltips" data-original-title="Hide Sidebar" data-placement="bottom"><i class="icon_menu"></i></div>
         </div>
-
-        <!--logo start-->
         <a href="/" class="logo">PMR <span class="lite">DataMining</span></a>
-        <!--logo end-->
-
     </header>
     <!--header end-->
 
     <!--sidebar start-->
     <aside>
-        <div id="sidebar"  class="nav-collapse ">
+        <div id="sidebar"  class="nav-collapse">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu">
                 <li class="active">
-                    <a class="" href="/">
+                    <a class="side-menu" href="/">
                         <i class="icon_house_alt"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="hard2" id="hardCol">Hardware Adoption</a>
+                    <a class="query side-menu" id="hardPie">Hardware Adoption</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="soft2" id="softCol">Software Adoption</a>
+                    <a class="query side-menu" id="softPie">Software Adoption</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="month1" id="monthPie">Monthly Inflow</a>
+                    <a class="query side-menu" id="monthPie">Monthly Inflow</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="per1" id="pervasivePie" >Most Pervasive Issues</a>
+                    <a class="query side-menu" id="pervasivePie" >Most Pervasive Issues</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="senti1" id="sentiPie">Sentiment Analysis</a>
+                    <a class="query side-menu" id="sentiPie">Sentiment Analysis</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="code1" id="codePie">PMR to Code Fix Ratio</a>
+                    <a class="query side-menu" id="codePie">PMR to Code Fix Ratio</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="crit1" id="critPie">Critical Situation Details</a>
-                </li>
-
-
-                <!--<li class="sub-menu">-->
-                    <!--<a class="acti1" id="actiPie">Active Customer Details</a>-->
-                <!--</li>-->
-
-                <li class="sub-menu">
-                    <a class="acti1" id="actiPie">Active Customer Details</a>
+                    <a class="query side-menu" id="critBubble">Critical Situation Details</a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="geo1" id="geoPie">Geographic Location </a>
+                    <a class="query side-menu" id="actiTable">Active Customer Details</a>
                 </li>
 
-                <!--<li class="sub-menu">-->
-                    <!--<a href="javascript:;" class="">-->
-                        <!--<i class="icon_document_alt"></i>-->
-                        <!--<span>Avg. Closure Time </span>-->
-                        <!--<span class="menu-arrow arrow_carrot-right"></span>-->
-                    <!--</a>-->
-                    <!--<ul class="sub">-->
-                        <!--<li><a class="" href="chart.html">PieChart</a></li>-->
-                        <!--<li><a class="" href="chart.html">Chart-2</a></li>-->
-                    <!--</ul>-->
-                <!--</li>-->
-
-
-                <!--<li class="sub-menu">-->
-                    <!--<a href="javascript:;" class="">-->
-                        <!--<i class="icon_document_alt"></i>-->
-                        <!--<span>Keyword Search </span>-->
-                        <!--<span class="menu-arrow arrow_carrot-right"></span>-->
-                    <!--</a>-->
-                <!--</li>-->
+                <li class="sub-menu">
+                    <a class="query side-menu" id="geoPie">Geographic Location </a>
+                </li>
             </ul>
             <!-- sidebar menu end-->
         </div>
@@ -276,7 +505,6 @@
             <!--overview start-->
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
                     <ol class="breadcrumb">
                         <font size=5 color="#00a0df">
                             <div id="title" style ="text-align: center; vertical-align: middle;">
@@ -287,35 +515,55 @@
                 </div>
             </div>
 
-            <!--/.row  Charts will come here-->
+            <div class="row" style="display:none" id="linkstring">
+                <div class="col-lg-12" >
+                    <ol class="breadcrumb">
+                        <font size=3 color="#00a0df">
+                            <div id="title1" >
+                               <a id="monthPie2"> Monthly </a>
+                            </div>
+                        </font>
+                    </ol>
+                </div>
+            </div>
 
-
-            <div class="row ">
+            <div class="row">
                 <div class="col-lg-9 col-md-12">
-
                     <div class="panel panel-default">
-
                         <div class="panel-body-map">
-                            <div  id="chart" style ="text-align: center; vertical-align: middle;">
+                            <div  id="chartArea" class="chartClass" style="width:1290px">
+                            </div>
+
+                            <!--text area : sticky notes -->
+                            <div id = "textArea" class="textClass">
+                                <ul1>
+                                    <li1>
+                                        <a>
+
+                                            <p id="queryInfo">Welcome to PMR Data Mining</p>
+                                        </a>
+                                    </li1>
+                                </ul1>
+<!--drop down for year-->
+                                <!--<div data-dojo-type="dijit/form/DropDownButton" id="ItemMenu">-->
+                                    <!--<span>Year</span>-->
+                                    <!--<div data-dojo-type="dijit/Menu" id="fileMenu">-->
+                                        <!--<div data-dojo-type="dijit/MenuItem" onClick="function1()">2016</div>-->
+                                        <!--<div data-dojo-type="dijit/MenuItem" onClick="function2()">2015</div>-->
+                                        <!--<div data-dojo-type="dijit/MenuItem" onClick="function3()">2014</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
 
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Today status end -->
-            <!-- statics end -->
-            <!-- project team & activity start -->
-
-            <!-- project team & activity end -->
-
         </section>
     </section>
-    <!--main content end-->
 </section>
-<!-- container section start -->
-<!-- javascripts -->
 
+<!-- javascripts -->
 <script src="@routes.Assets.versioned("js/jquery.js")"></script>
 <script src="@routes.Assets.versioned("js/jquery-ui-1.10.4.min.js")"></script>
 <script src="@routes.Assets.versioned("js/jquery-1.8.3.min.js")"></script>
@@ -324,9 +572,5 @@
 <script src="@routes.Assets.versioned("js/jquery.scrollTo.min.js")"></script>
 <script type="text/javascript" src="@routes.Assets.versioned("js/jquery.nicescroll.js")" ></script>
 <script src="@routes.Assets.versioned("js/scripts.js")"></script>
-
- <!--js files for charting -->
-
 </body>
 </html>
-

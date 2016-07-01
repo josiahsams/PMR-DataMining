@@ -3,13 +3,6 @@
 
 <script>
         var store, data, obj ;
-        require(["dojox/widget/Standby"],
-        function(Standby){
-           var standby;
-           standby = new Standby({target: "chartDisp", color: "white"});
-           document.body.appendChild(standby.domNode);
-           standby.startup();
-           standby.show();
          //  console.log("I am in month "+data);
         require(["dojox/charting/Chart", "dojox/charting/Chart2D", "dojox/charting/plot2d/Lines", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice",
          "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable",
@@ -43,54 +36,50 @@
                                                 }
                                             }));
 
-                                        var chartTwo = new Chart("chartDisp");
-                                        chartTwo.setTheme(MiamiNice).addPlot("default",
-                                        {
-                                            type: "Lines",
-                                            markers: true,
-                                            stroke: {
-                                                color: "#4daf4a",
-                                                width: 4
-                                                },
-                                            fill: "red"
-                                        }).addSeries("y", new dojox.charting.StoreSeries(store,
-                                        {
-                                            query:
-                                            {}
-                                        }, "Count"));
+                                            var chartTwo = new Chart("chartDisp");
+                                            chartTwo.setTheme(MiamiNice).addPlot("default",
+                                            {
+                                                type: "Lines",
+                                                markers: true,
+                                                stroke: {
+                                                    color: "#4daf4a",
+                                                    width: 4
+                                                    },
+                                                fill: "red"
+                                            }).addSeries("y", new dojox.charting.StoreSeries(store,
+                                            {
+                                                query:
+                                                {}
+                                            }, "Count"));
 
-                                        // Add axes
-                                        chartTwo.addAxis("x", {labels: [{value: 1, text: "Jan"}, {value: 2, text: "Feb"}, {value: 3, text: "Mar"},
-                                            {value: 4, text: "Apr"}, {value: 5, text: "May"}, {value: 6, text: "Jun"}, {value: 7, text: "Jul"},
-                                            {value: 8, text: "Aug"}, {value: 9, text: "Sep"}, {value: 10, text: "Oct"},{value: 11, text: "Nov"},
-                                            {value: 12, text: "Dec"}]
-	                                    });
-                                       // console.log("new Content "+ newContent) ;
-	                                    chartTwo.addAxis("y", {min: 0, max: 6000, vertical: true, fixLower: "major", fixUpper: "major" });
+                                            // Add axes
+                                            chartTwo.addAxis("x", {labels: [{value: 1, text: "Jan"}, {value: 2, text: "Feb"}, {value: 3, text: "Mar"},
+                                                {value: 4, text: "Apr"}, {value: 5, text: "May"}, {value: 6, text: "Jun"}, {value: 7, text: "Jul"},
+                                                {value: 8, text: "Aug"}, {value: 9, text: "Sep"}, {value: 10, text: "Oct"},{value: 11, text: "Nov"},
+                                                {value: 12, text: "Dec"}]
+                                            });
+                                           // console.log("new Content "+ newContent) ;
+                                            chartTwo.addAxis("y", {min: 0, max: 6000, vertical: true, fixLower: "major", fixUpper: "major" });
 
-                                        var anim_a = new MoveSlice(chartTwo, "default");
-                                        var anim_b = new Highlight(chartTwo, "default");
-                                        var anim_c = new Tooltip(chartTwo, "default");
-                                        var mag = new Magnify(chartTwo,"default");
+                                            var anim_a = new MoveSlice(chartTwo, "default");
+                                            var anim_b = new Highlight(chartTwo, "default");
+                                            var anim_c = new Tooltip(chartTwo, "default");
+                                            var mag = new Magnify(chartTwo,"default");
 
-                                        new Tooltip(chartTwo, "default", {
-                   text: function(obj){
-                    //var temp = JSON.parse('\''+obj+'\'') run.data[obj12.index] ;
-                    //console.log("X = "+data[obj.x-1]+" Y = "+obj.y) ;
-                      return data[(obj.x-1)].Month+"<br>"+obj.y;
-                   }
-                });
+                                            new Tooltip(chartTwo, "default", {
+                                               text: function(obj){
+                                                //var temp = JSON.parse('\''+obj+'\'') run.data[obj12.index] ;
+                                                //console.log("X = "+data[obj.x-1]+" Y = "+obj.y) ;
+                                                  return data[(obj.x-1)].Month+"<br>"+obj.y;
+                                               }
+                                            });
 
-                                        chartTwo.render();
-                                        standby.hide() ;
+                                            chartTwo.render();
                                         }
-
                                 });
 							});
-						//	console.log("I am after ready ");
 
-                         });
-        });
+                    });
 </script>
 
 <body class="claro">

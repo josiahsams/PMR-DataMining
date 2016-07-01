@@ -22,9 +22,6 @@ class HomeController @Inject() extends Controller {
   //CACHE_CONTROL.toSet(sqlContext)
 
   def index = Action {
-
-    Ok(views.html.index("Hai, Welcome to IBM."))
+    Ok(views.html.index("Hai, Welcome to IBM.")).withSession("HomePage"->"Hai")
   }
-
-
 }

@@ -1,73 +1,310 @@
+<head>
 
-<!-- load dojo and provide config via data attribute -->
+    <script>
+// loading the required scripting files
+        dojo.require("dijit.DropDownMenu");
+        dojo.require("dijit.MenuItem");
+        dojo.require("dijit.MenuSeparator");
+        dojo.require("dijit.PopupMenuItem");
+        dojo.require("dijit.MenuBar");
+</script>
+    <script>
 
-<script>
-        var store, data ;
-        require(["dojox/widget/Standby"],
-        function(Standby){
-           var standby = new Standby({target: "chartDisp", color: "white"});
-           document.body.appendChild(standby.domNode);
-           standby.startup();
-           standby.show();
-        require(["dojox/charting/Chart","dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory", "dojox/charting/StoreSeries"],
-						function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
-						{
-							ready(function()
-							{
-							    // Using dojo.xhrGet, as no information is being sent -- only requesting
-                                dojo.xhrGet(
-                                {
-                                        // The URL of the request
-                                        url: "http://localhost:8080/monthly",
-                                        // Handle as JSON Data
-                                        handleAs: "json",
-                                        // The success callback with result from server
-                                        load: function(newContent)
-                                        {
-                                           //data = dojo.toJson(newContent) ;
-                                            //console.log("Data in load :"+newContent) ;
+    var obj, data, monthNo ;
+var x = "01" ;
+// laod the required files
+	 require(["dojox/charting/Chart", "dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip",
+         "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/parser", "dijit/DropDownMenu", "dijit/MenuItem", "dijit/Menu", "dijit/PopupMenuBarItem", "dijit/MenuBar", "dijit/form/DropDownButton"],
+	  function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, parser, DropDownMenu, MenuItem, Menu, PopupMenuBarItem, MenuBar, DropDownButton){
+	  ready(function(){
+ $('#floating-panel').hide() ;
+	  	dojo.xhrGet({
+// url to get the json data
+	  		url: "http://localhost:8080/monthly",
+    	       // Handle as JSON Data
+            handleAs: "json",
+            // success call back
+            load: function(newContent)
+            {
+            	data = newContent ;
 
-                                            store = new ObservableStore(new MemoryStore(
-                                            {
-                                                data:
-                                                {
-                                                    identifier: "Id",
-                                                    label: "Users Online",
-                                                    items: newContent
-                                                }
-                                            }));
+            	document.getElementById("chartTwo").innerHTML = "" ;
+				var chartTwo = new Chart("chartTwo");
+				var i = 0 ;
+				// Add axes
+chartTwo.addAxis("x", {labels: [{value: 1, text: "Jan"}, {value: 2, text: "Feb"}, {value: 3, text: "Mar"}, {value: 4, text: "Apr"}, {value: 5, text: "May"}, {value: 6, text: "Jun"}, {value: 7, text: "Jul"}, {value: 8, text: "Aug"}, {value: 9, text: "Sep"}]
+});
+				chartTwo.addAxis("y", {vertical: true, fixLower: "major", fixUpper: "major" });
 
-                                            var chartTwo = new Chart("chartDisp");
-                                            chartTwo.setTheme(MiamiNice).addPlot("default",
-                                            {
-                                                type      : "Columns",
-                                                font      : "normal normal 11pt Tahoma",
-                                                fontColor : "black",
-                                                gap       : 5
+			    chartTwo.setTheme(MiamiNice)
+			     .addPlot("default", {
+			        type: "Columns",    // type of chart col, bar, pie ...etc
+				    title: "column chart",   // title for the chart(not working)
+			        font: "normal normal 11pt Tahoma",  // setting the font of text showing on the screen
+			        fontColor: "black",  // give color to font
+				    gap: 5,    // gap between bars
+				    tension: 3,
+				    fill: "orange" // give color to fill the bar
+			    }).addSeries("y", data);
+// creating object to moveslice
+			    var anim_a = new MoveSlice(chartTwo, "default");
+// creating object to highlight bars
+			    var anim_b = new Highlight(chartTwo, "default");
+// creating object to create a default tooltip
+			    var anim_c = new Tooltip(chartTwo, "default");
+				var i = 0 ;
+// customized tooltip
+			    new Tooltip(chartTwo, "default", {
+			       text: function(obj){
+			          return data[(obj.x)].text+"<br>"+data[(obj.x)].y;
+			       }
+			    });
+// apply all changes to charttwo division
+			    chartTwo.render();
+// to create onclick event for bars in chart
+			    chartTwo.connectToPlot("default", function(evt) {
 
-                                            }).addSeries("y", new dojox.charting.StoreSeries(store,
-                                            {
-                                                query:
-                                                {}
-                                            }, "Count"));
+                var shape = evt.shape, type = evt.type;
 
-                                            // Add axes
-                                            chartTwo.addAxis("x", {labels:{value: 1, text: "APAR"}});
-                                            chartTwo.addAxis("y", { vertical: true, fixLower: "major", fixUpper: "major" });
-console.log("new content "+newContent);
-                                            // adding new features to chart
-                                            var anim_a = new MoveSlice(chartTwo, "default");
-                                            var anim_b = new Highlight(chartTwo, "default");
-                                            var anim_c = new Tooltip(chartTwo, "default");
-                                            chartTwo.render();
-                                            standby.hide() ;
-                                        }
-                                });
-							});
-                         });
-               });
-    </script>
+			        if(type=="onclick")
+			        {
+			            if(data[evt.x].text=="Jan")
+			            { x = "01" }
+			            else if(data[evt.x].text=="Feb")
+			            { x = "02"}
+			            else if(data[evt.x].text=="Mar")
+			            { x = "03"}
+			            else if(data[evt.x].text=="Apr")
+			            { x = "04"}
+			            else if(data[evt.x].text=="May")
+			            { x = "05"}
+			            else if(data[evt.x].text=="Jun")
+			            { x = "06" }
+			            else if(data[evt.x].text=="Jul")
+                        { x = "07"}
+			            else if(data[evt.x].text=="Aug")
+			            { x = "08"}
+			            else if(data[evt.x].text=="Sep")
+                        { x = "09" }
+                        else if(data[evt.x].text=="Oct")
+                        { x = "10"}
+                        else if(data[evt.x].text=="Nov")
+                        { x = "11"}
+                        else
+                        { x = "12"}
+// storing the monthno
+                        localStorage.setItem("monthNo",x) ;
+// storing month name                      
+			localStorage.setItem("monthName", data[evt.x].text) ;
+// opening new page when there is a click on bar
+                        window.location.replace("http://localhost:8080/monthlyAnalysis");
+                        console.log("x = "+data[evt.x].text) ;
+                    }
+                });
+            }
+	  	});
+      });
+     });
+// function for each year in drop down
+     function function1(){
+	//alert("hai snakae-1");
+
+	require(["dojox/charting/Chart", "dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight",
+         "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip",
+         "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory","dojox/charting/StoreSeries","dijit/Tooltip", "dojo/json"],
+	function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries, ToolTip, JSON){
+	ready(function(){
+	dojo.xhrGet({
+	  		url: "http://localhost:8080/monthly",
+    	       // Handle as JSON Data
+            handleAs: "json",
+            // success call back
+            load: function(newContent)
+            {
+            	data = newContent ;
+
+            	document.getElementById("chartTwo").innerHTML = "" ;
+				var chartTwo = new Chart("chartTwo");
+				var i = 0 ;
+				// Add axes
+				chartTwo.addAxis("x", {labels: [{value: 1, text: "Jan"}, {value: 2, text: "Feb"}, {value: 3, text: "Mar"}, {value: 4, text: "Apr"}, {value: 5, text: "May"}, {value: 6, text: "Jun"},
+				                      {value: 7, text: "Jul"}, {value: 8, text: "Aug"}, {value: 9, text: "Sep"}]
+				                      });
+				chartTwo.addAxis("y", {vertical: true, fixLower: "major", fixUpper: "major" });
+
+			    chartTwo.setTheme(MiamiNice)
+			     .addPlot("default", {
+			        type: "Columns",
+				title: "column chart",
+			        font: "normal normal 11pt Tahoma",
+			        fontColor: "black",
+				gap: 5,
+				tension: 3,
+				fill: "orange"
+			    }).addSeries("y", data);
+
+			     //var x  = dojo.toJson() ;
+			    var anim_a = new MoveSlice(chartTwo, "default");
+			    var anim_b = new Highlight(chartTwo, "default");
+			    var anim_c = new Tooltip(chartTwo, "default");
+				var i = 0 ;
+			    new Tooltip(chartTwo, "default", {
+			       text: function(obj){
+					//var temp = JSON.parse('\''+obj+'\'') run.data[obj12.index] ;
+			          return data[(obj.x)].text+"<br>"+data[(obj.x)].y;
+			       }
+			    });
+			    chartTwo.render();
+
+			    chartTwo.connectToPlot("default", function(evt) {
+                    var shape = evt.shape, type = evt.type;
+
+			        if(type=="onclick")
+		            {
+                        if(data[evt.x].text=="Jan")
+                        { x = "01" }
+                        else if(data[evt.x].text=="Feb")
+                        { x = "02"}
+                        else if(data[evt.x].text=="Mar")
+                        { x = "03"}
+                        else if(data[evt.x].text=="Apr")
+                        { x = "04"}
+                        else if(data[evt.x].text=="May")
+                        { x = "05"}
+                        else if(data[evt.x].text=="Jun")
+                        { x = "06" }
+                        else if(data[evt.x].text=="Jul")
+                        { x = "07"}
+                        else if(data[evt.x].text=="Aug")
+                        { x = "08"}
+                        else if(data[evt.x].text=="Sep")
+                        { x = "09" }
+                        else if(data[evt.x].text=="Oct")
+                        { x = "10"}
+                        else if(data[evt.x].text=="Nov")
+                        { x = "11"}
+                        else
+                        { x = "12"}
+                        localStorage.setItem("monthNo",x) ;
+                        window.location.replace("http://localhost:8080/level2");
+                    }
+                });
+			}
+  });
+});
+});
+}
+
+     function function2(){
+	//alert("hai snakae-2");
+
+		require(["dojox/charting/Chart", "dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight",
+         "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip",
+         "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory","dojox/charting/StoreSeries","dijit/Tooltip", "dojo/json"],
+	  function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries, ToolTip, JSON){
+	  ready(function(){
+
+	  	// 	  	var div = document.getElementById('chartTwo');
+				// while (div) {
+				//     div.parentNode.removeChild(div);
+				//     div = document.getElementById('chartTwo');
+				// }
+				// var msgContainer = document.createElement('div');
+				// msgContainer.id = 'chartTwo';             // No setAttribute required
+				// msgContainer.className = 'someClass' // No setAttribute required, note it's "className" to avoid conflict with JavaScript
+document.getElementById("chartTwo").innerHTML = "" ;
+	var data = []
+
+	var chartTwo = new Chart("chartTwo");
+	var i = 0 ;
+	// Add axes
+	chartTwo.addAxis("x");
+	chartTwo.addAxis("y", {min: 0, max: 100, vertical: true, fixLower: "major", fixUpper: "major" });
+
+    chartTwo.setTheme(MiamiNice)
+     .addPlot("default", {
+        type: "Columns",
+	title: "column chart",
+        font: "normal normal 11pt Tahoma",
+        fontColor: "black",
+	gap: 5,
+	tension: 3,
+	fill: "green"
+    }).addSeries("y", data);
+
+//var x  = dojo.toJson() ;
+    var anim_a = new MoveSlice(chartTwo, "default");
+    var anim_b = new Highlight(chartTwo, "default");
+    var anim_c = new Tooltip(chartTwo, "default");
+var i = 0 ;
+
+    new Tooltip(chartTwo, "default", {
+       text: function(obj){
+		//var temp = JSON.parse('\''+obj+'\'') run.data[obj12.index] ;
+          return data[(obj.x)-0.5].text+"<br>"+obj.y;
+       }
+    });
+
+    var legendTwo = new dojox.charting.widget.Legend({chart: chartTwo}, "legendTwo");
+    chartTwo.render();
+  });
+});
+
+
+}
+
+     function function3(){
+			require(["dojox/charting/Chart", "dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight",
+         "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip",
+         "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory","dojox/charting/StoreSeries","dijit/Tooltip", "dojo/json"],
+	  function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries, ToolTip, JSON){
+	  ready(function(){
+
+	document.getElementById("chartTwo").innerHTML = "" ;
+	var data = []
+
+	var chartTwo = new Chart("chartTwo");
+	var i = 0 ;
+	// Add axes
+	chartTwo.addAxis("x");
+	chartTwo.addAxis("y", {min: 0, max: 100, vertical: true, fixLower: "major", fixUpper: "major" });
+
+    chartTwo.setTheme(MiamiNice)
+     .addPlot("default", {
+        type: "Columns",
+	title: "column chart",
+        font: "normal normal 11pt Tahoma",
+        fontColor: "black",
+	gap: 5,
+	tension: 3,
+	fill: "green"
+    }).addSeries("y", data);
+
+//var x  = dojo.toJson() ;
+    var anim_a = new MoveSlice(chartTwo, "default");
+    var anim_b = new Highlight(chartTwo, "default");
+    var anim_c = new Tooltip(chartTwo, "default");
+var i = 0 ;
+
+    new Tooltip(chartTwo, "default", {
+       text: function(obj){
+		//var temp = JSON.parse('\''+obj+'\'') run.data[obj12.index] ;
+          return data[(obj.x)-0.5].text+"<br>"+obj.y;
+       }
+    });
+
+    var legendTwo = new dojox.charting.widget.Legend({chart: chartTwo}, "legendTwo");
+    chartTwo.render();
+  });
+});
+}
+
+	</script>
+</head>
+
 <body class="claro">
-<div id="chartDisp" style="width: 600px; height: 500px;"></div>
-</body>
 
+<div id="chartTwo" style="width: 600px; height: 500px;"></div>
+</div>
+<div>Note: Please click on the bar to see month specific analysis</div>
+</body>

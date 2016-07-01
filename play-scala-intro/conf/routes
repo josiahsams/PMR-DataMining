@@ -14,6 +14,14 @@ GET     /message                    controllers.AsyncController.message
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
+######## First level queries
+##### Active Customer Details
+# for raw json data
+GET     /active                     controllers.Controller1.active
+
+# Table
+GET     /acti_table                 controllers.Controller1.actiTable
+
 ##### Geographic Location
 # geographic location raw Json output
 GET      /geoloc                    controllers.Controller1.geoLoc
@@ -28,8 +36,8 @@ GET     /world_data                 controllers.Controller1.worldData
 # pervasive issues raw Json output
 GET     /pervasive                  controllers.Controller1.pervasive
 
-# Pie-Chart
-GET     /per_pie                    controllers.Controller1.perPie
+# table
+GET     /per_table                  controllers.Controller1.perTable
 
 ##### Sentiment
 # sentiment analysis raw Json output
@@ -38,9 +46,6 @@ GET     /sentiment                  controllers.Controller1.sentiment
 # Pie-Chart
 GET     /senti_pie                  controllers.Controller1.sentiPie
 
-#Col-Chart
-GET     /senti_col                  controllers.Controller1.sentiCol
-
 ##### CodeFixRatio
 # codeFixRatio raw Json output
 GET     /codefixratio               controllers.Controller1.codeFixRatio
@@ -48,18 +53,12 @@ GET     /codefixratio               controllers.Controller1.codeFixRatio
 # Pie-Chart
 GET     /code_pie                    controllers.Controller1.codePie
 
-# Col-Chart
-GET     /code_col                   controllers.Controller1.codeCol
-
 ##### CritSits
 # critsits information query
 GET     /critsits                   controllers.Controller1.critsits
 
-# Pie-Chart
-GET     /crit_pie                   controllers.Controller1.critPie
-
-# Col-Chart
-GET     /crit_col                   controllers.Controller1.critCol
+# Bubble Chart
+GET     /crit_table                controllers.Controller1.critTable
 
 ##### HardWare
 # hardware related query
@@ -68,9 +67,6 @@ GET     /hardware                   controllers.Controller1.hardware
 # Pie-Chart
 GET     /hard_pie                   controllers.Controller1.hardPie
 
-# Col-Chart
-GET     /hard_col                   controllers.Controller1.hardCol
-
 ##### Software
 # software report query
 GET     /software                   controllers.Controller1.software
@@ -78,28 +74,44 @@ GET     /software                   controllers.Controller1.software
 # Pie-Chart
 GET     /soft_pie                   controllers.Controller1.softPie
 
-# Col-Chart
-GET     /soft_col                   controllers.Controller1.softCol
-
 ##### Monthly Reports
 # monthly reports raw Json Data
 GET     /monthly                    controllers.Controller1.monthly
 
-# Pie-Chart
-GET     /month_pie                  controllers.Controller1.monthPie
-
 # Col-Chart
 GET     /month_col                  controllers.Controller1.monthCol
 
-##### Active Customer Details
-# for raw json data
-GET     /active                     controllers.Controller1.active
+##### Second Level
+# redirecting to second page
+GET     /monthlyAnalysis            controllers.Controller1.secondPage
 
-# Pie-Chart
-GET     /acti_pie                   controllers.Controller1.actiPie
+####### second level queries
+# raw json-data
+GET     /hardware2                  controllers.Controller1.hardware2(monthNo: String)
 
-# Col-Chart
-GET     /acti_col                   controllers.Controller1.actiCol
+# hardware query for level2 pie chart
+GET     /hard_pie2                  controllers.Controller1.hardPie2
 
-# average closure time query
-#GET     /average                   controllers.Controller1.average
+# most pervasive issues
+GET     /pervasive2                 controllers.Controller1.pervasive2(monthNo: String)
+
+# Pervasive table
+GET     /per_table2                 controllers.Controller1.perTable2
+
+# software data
+GET     /software2                  controllers.Controller1.software2(monthNo: String)
+
+# softpie chart
+GET     /soft_pie2                  controllers.Controller1.softPie2
+
+# codefix ratio data
+GET     /codefixratio2              controllers.Controller1.codeFixRatio2(monthNo: String)
+
+# codepie chart
+GET     /code_pie2                  controllers.Controller1.codePie2
+
+# active data
+GET     /active2                    controllers.Controller1.active2(monthNo: String)
+
+# active users table
+GET     /acti_table2                controllers.Controller1.actiTable2

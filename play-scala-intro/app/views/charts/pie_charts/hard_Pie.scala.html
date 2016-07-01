@@ -3,14 +3,11 @@
 
 <script>
         var store, data ;
-        require(["dojox/widget/Standby"],
-        function(Standby){
-           var standby = new Standby({target: "chartDisp", color: "white"});
-           document.body.appendChild(standby.domNode);
-           standby.startup();
-           standby.show();
-        require(["dojox/charting/Chart", "dojox/charting/plot2d/Pie", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory", "dojox/charting/StoreSeries"],
-						function(Chart, Pie, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
+
+        require(["dojox/charting/Chart", "dojox/charting/plot2d/Pie", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice",
+        "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory",
+        "dojox/charting/StoreSeries", "dijit/registry"],
+						function(Chart, Pie, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries, registry)
 						{
 							ready(function()
 							{
@@ -24,7 +21,7 @@
                                         // The success callback with result from server
                                         load: function(newContent)
                                         {
-                                           //data = dojo.toJson(newContent) ;
+                                           data = newContent ;
                                             //console.log("Data in load :"+newContent) ;
 
                                             store = new ObservableStore(new MemoryStore(
@@ -43,29 +40,38 @@
                                             type: "Pie",
                                             font: "normal normal 11pt Tahoma",
                                             fontColor: "black",
-                                            labelOffset: -30,
+                                            labelOffset: -20,
                                             radius: 180
-                                        }).addSeries("y", new dojox.charting.StoreSeries(store,
-                                        {
-                                            query:
-                                            {}
-                                        }, "Count"));
+                                        }).addSeries("y", data);
 
                                         var anim_a = new MoveSlice(chartTwo, "default");
                                         var anim_b = new Highlight(chartTwo, "default");
                                         var anim_c = new Tooltip(chartTwo, "default");
-                                        chartTwo.render();
-                                        standby.hide() ;
 
+                                        new Tooltip(chartTwo, "default", {
+                                           text: function(obj){
+                                               // console.log("X = "+obj.x+" Y = "+obj.y) ;
+                                                  return data[(obj.x)].text+"<br>"+obj.y;
+                                               }
+                                           });
+
+                                        chartTwo.render();
+
+                                        if(typeof registry.byId("legendTwo") != "undefined"){
+                                                registry.byId("legendTwo").destroyRecursive();
+                                                console.log("I am sankar");
+                                        }
+
+                                        var legendTwo = new dojox.charting.widget.Legend({chart: chartTwo}, "legendTwo");
                                         }
                                 });
 							});
 
                          });
-        });
     </script>
 
 <body class="claro">
 <div id="chartDisp" style="width: 600px; height: 500px;"></div>
+<div id="legendTwo"></div>
 </body>
 

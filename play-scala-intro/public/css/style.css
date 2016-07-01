@@ -94,6 +94,43 @@ table tr th { color: #688a7e;}
   background-size: cover;
 }
 
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: orange;
+}
+
+.bar:hover {
+  fill: orangered ;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 5px;
+  background: rgba(0, 0, 0, 1);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  bottom: 100%;
+  left: 0;
+}
+
 
 .login-form {
     max-width: 350px;
@@ -1158,16 +1195,18 @@ div[data-role="editor-toolbar"] {
   border-bottom-color: #ccc!important;
   border-left-color: #ccc!important;
 }
+
+#sidebar a:hover, #sidebar li.active a {
+    background: #000;
+}
+
 .panel .panel-body-map {
   border-width: 1px 1px 2px;
   border-style: solid;
   background:#ffffff;
-  height:510px;
-
+  height:600px;
   display: flex;
-  justify-content: center;
-  align-items: center;
- 
+  padding: 15px ;
   border-top: none;
   border-right-color: #ccc!important;
   border-bottom-color: #ccc!important;

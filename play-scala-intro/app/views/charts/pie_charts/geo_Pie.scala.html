@@ -1,18 +1,32 @@
-<!DOCTYPE html>
-<html>
+
 <head>
     <meta charset="utf-8">
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <style>
-    </style>
 </head>
 <body >
 <div id="chartDisp" style="width: 10%; height: 60%;"></div>
-<script type="text/javascript">
+<script type="text/javascript" >
 	  /*
 	    Use D3 to load the GeoJSON file
 	    */
-	    
+
+        // variables for legend
+          var color_domain = [50, 500, 4000] ;
+          var ext_color_domain = [0, 50, 500, 4000] ;
+          var legend_labels = ["No PMR's", "Less PMR's", "Medium PMR's", "More PMR's" ] ;
+
+          var color = d3.scale.threshold()
+          .domain(color_domain)
+          .range(["lightBlue", "#ffe5e5", "#ff9999", "red"]);
+
+
+        var newDict={};
+        var tip = d3.tip()
+          .attr('class', 'd3-tip')
+          .offset([50, 100])
+          .html(function(d) {
+            return "<Strong> Country: </Strong> <span style 'color:red'>"+ d.properties.name + '<br>' + "<strong>Frequency:</strong> <span style='color:red'>"
+             + newDict[d.id][0] + "</span>";
+          })
 
 		d3.json("http://localhost:8080/world_data", function (error, geo_data) {
         "use strict";
@@ -26,6 +40,8 @@
             .attr("height", height + margin)
             .append('g')
             .attr('class', 'map');
+
+        svg.call(tip) ;
 
         var projection = d3.geo.mercator()
                                .scale(150)
@@ -44,25 +60,49 @@
                      .style('stroke-width', 0.5);
 
 	d3.json("http://localhost:8080/geoloc",function(error, data){
-		//data = [{"Id":"IND","CountryName":"IND","Count":4498},{"Id":"JPN","CountryName":"JPN","Count":2433},{"Id":"KOR","CountryName":"KOR","Count":2301},] ;
+		data.forEach(function(d) {
+							newDict[d.CountryId] = [+ d.Count] ;
+					});
+
 		var opac=d3.scale.linear()
 				.domain([1,4498])
 				.range([0.1,1])
+
 		for(var i=0;i<data.length;i++){
-			//console.log(data[i]['CountryId'])
 			d3.select("."+data[i]['CountryId'])
+			    .on('mouseover',tip.show)
+		     	.on('mouseout',tip.hide)
 				.style('fill',"red")
 				.style('opacity',opac(+data[i]['Count']))
+
 		}
-		for(var i=0;i<data.length;i++){
-			d3.select('tooltip', function (data) {
-			   var tip = data[i]['CountryId'] +data[i]['Count'];
-      		   return tip;})
-		}
-	})
-      }
+
+			//Adding legend for our world map
+
+          var legend = svg.selectAll("g.legend")
+          .data(ext_color_domain)
+          .enter().append("g")
+          .attr("class", "legend");
+
+          var ls_w = 20, ls_h = 20;
+
+          legend.append("rect")
+          .attr("x", 20)
+          .attr("y", function(d, i){ return height - (i*ls_h) - 2*ls_h;})
+          .attr("width", ls_w)
+          .attr("height", ls_h)
+          .style("fill", function(d, i) { return color(d); })
+          .style("opacity", 0.8)
+          .style("stroke", "black");
+
+          legend.append("text")
+          .attr("x", 50)
+          .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
+          .text(function(d, i){ return legend_labels[i]; });
+
+	    })
+    }
 );
 
 	  </script>
 </body>
-</html>

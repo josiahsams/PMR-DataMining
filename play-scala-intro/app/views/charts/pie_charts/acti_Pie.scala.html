@@ -1,17 +1,9 @@
 
-<!DOCTYPE html>
-        <html>
             <head>
                 <!-- load dojo and provide config via data attribute -->
 
                 <script>
                         var store, data ;
-                        require(["dojox/widget/Standby"],
-                        function(Standby){
-                           var standby = new Standby({target: "chartDisp", color: "white"});
-                           document.body.appendChild(standby.domNode);
-                           standby.startup();
-                           standby.show();
                             require(["dojox/charting/Chart", "dojox/charting/plot2d/Pie", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory", "dojox/charting/StoreSeries"],
                                         function(Chart, Pie, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
                                         {
@@ -58,16 +50,13 @@
                                                         var anim_b = new Highlight(chartTwo, "default");
                                                         var anim_c = new Tooltip(chartTwo, "default");
                                                         chartTwo.render();
-                                                        standby.hide() ;
                                                         }
                                                 });
                                             });
                                          });
-                });
                     </script>
             </head>
             <body class="claro">
                 <div id="chartDisp" style="width: 500px; height: 500px;"></div>
 
             </body>
-        </html>

@@ -3,20 +3,15 @@
 
 <script>
         var store, data ;
-        require(["dojox/widget/Standby"],
-        function(Standby){
-           var standby = new Standby({target: "chartDisp", color: "white"});
-           document.body.appendChild(standby.domNode);
-           standby.startup();
-           standby.show();
+
         require(["dojox/charting/Chart","dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice",
         "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory",
         "dojox/charting/StoreSeries"],
-						function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
-						{
-							ready(function()
-							{
-							    // Using dojo.xhrGet, as no information is being sent -- only requesting
+function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
+	{
+	ready(function()
+	{
+    // Using dojo.xhrGet, as no information is being sent -- only requesting
                                 dojo.xhrGet(
                                 {
                                         // The URL of the request
@@ -38,17 +33,17 @@
                                                     items      : newContent
                                                 }
                                             }));
-
+// creating a new chart and setting its properties
                                             var chartTwo = new Chart("chartDisp");
                                             chartTwo.setTheme(MiamiNice).addPlot("default",
                                             {
-                                                type: "Columns",
-                                                title: "column chart",
-                                                font: "normal normal 11pt Tahoma",
-                                                fontColor: "black",
-                                                gap: 5,
-                                                tension: 3,
-                                                fill: "orange"
+                                                type: "Columns",    // type of chart col, bar, pie ...etc
+                                                title: "column chart",    // title for the chart(not working)
+                                                font: "normal normal 11pt Tahoma", // setting the font of text showing on the screen
+                                                fontColor: "black",        // give color to font
+                                                gap: 5,		// gap between bars
+                                                tension: 3,     
+                                                fill: "orange"  // give color to fill the bar
 
                                             }).addSeries("y", new dojox.charting.StoreSeries(store,
                                             {
@@ -73,13 +68,11 @@
                                                 }
                                             });
                                             chartTwo.render();
-                                            standby.hide() ;
                                         }
                                 });
 							});
 
                          });
-                 });
     </script>
 <body class="claro">
 <div id="chartDisp" style="width: 600px; height: 500px;"></div>

@@ -3,12 +3,7 @@
 
 <script>
         var store, data ;
-        require(["dojox/widget/Standby"],
-        function(Standby){
-           var standby = new Standby({target: "chartDisp", color: "white"});
-           document.body.appendChild(standby.domNode);
-           standby.startup();
-           standby.show();
+
         require(["dojox/charting/Chart","dojox/charting/Chart2D", "dojox/charting/plot2d/Columns", "dojox/charting/action2d/Highlight", "dojox/charting/action2d/MoveSlice", "dojox/charting/action2d/Tooltip", "dojox/charting/themes/MiamiNice", "dojox/charting/widget/Legend", "dojo/ready", "dojo/store/Observable", "dojo/store/Memory", "dojox/charting/StoreSeries"],
 						function(Chart, Chart2D, Columns, Highlight, MoveSlice, Tooltip, MiamiNice, Legend, ready, ObservableStore, MemoryStore, StoreSeries)
 						{
@@ -64,20 +59,17 @@
 
                                             new Tooltip(chartTwo, "default", {
                                            text: function(obj){
-
-                                           // console.log("X = "+obj.x+" Y = "+obj.y) ;
-                                              return data[(obj.x)].HardWare+"<br>"+obj.y;
-                                           }
+                                               // console.log("X = "+obj.x+" Y = "+obj.y) ;
+                                                  return data[(obj.x)].HardWare+"<br>"+obj.y;
+                                               }
                                            });
 
                                             chartTwo.render();
-                                            standby.hide() ;
                                         }
                                 });
 							});
 
                          });
-        });
     </script>
 <body class="claro">
 <div id="chartDisp" style="width: 600px; height: 500px;"></div>
